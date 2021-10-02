@@ -5,8 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
 
-            <Color x:Key="MainBlueColor">#85aed0</Color>
-            <Color x:Key="TextColor">#c4dbe0</Color>
+            <Color x:Key="MainBlueColor">DarkSlateBlue</Color>
+            <Color x:Key="TextColor">White</Color>
 
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource MainBlueColor}"></Setter>

@@ -10,7 +10,6 @@ namespace MySerenity
         public App()
         {
             var colorTypeConverter = new ColorTypeConverter();
-            
 
             InitializeComponent();
 
