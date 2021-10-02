@@ -26,7 +26,7 @@
                                 MaxLength="50"
                                 ClearButtonVisibility="WhileEditing"
                                 VerticalOptions="Start"
-                                BackgroundColor="White"
+                                BackgroundColor="DarkGray"
                             />
 
                             <Editor x:Name="journalText"
@@ -35,7 +35,7 @@
                                     Keyboard="Chat" 
                                     VerticalOptions="Fill"
                                     AutoSize="TextChanges"
-                                    BackgroundColor="White"
+                                    BackgroundColor="DarkGray"
                              />
                         </StackLayout>
                     </Frame>
