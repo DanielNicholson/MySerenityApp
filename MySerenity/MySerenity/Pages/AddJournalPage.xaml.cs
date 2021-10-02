@@ -32,8 +32,8 @@ namespace MySerenity.Pages
             journalTitle.IsReadOnly = true;
             journalText.IsReadOnly = true;
             picker.IsEnabled = false;
-            Submit.IsVisible = false;
-
+            picker.SelectedIndex = entry.JournalEntryMoodData;
+            SaveButton.IsEnabled = false;
             ToolBarTitle.Text = entry.JournalEntryTitle;
         }
 

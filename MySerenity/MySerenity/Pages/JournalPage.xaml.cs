@@ -31,11 +31,11 @@ namespace MySerenity.Pages
             {
                 connection.CreateTable<JournalEntry>();
 
-                var experiencesList = connection.Table<JournalEntry>().ToList();
+                var journalEntries = connection.Table<JournalEntry>().ToList();
 
-                experiencesList.Reverse();
+                journalEntries.Reverse();
 
-                JournalListView.ItemsSource = experiencesList;
+                JournalListView.ItemsSource = journalEntries;
             }
         }
 

@@ -4,8 +4,8 @@
              x:Class="MySerenity.Pages.JournalPage">
     <ContentPage.Content>
         <StackLayout>
-            <Button Margin="10, 10" Text="+" FontSize="20" Padding="0"
-                    CornerRadius="30" HeightRequest="40" WidthRequest="40"
+            <Button Margin="10, 10" ImageSource="add.png" FontSize="20" Padding="0"
+                    CornerRadius="20" HeightRequest="40" WidthRequest="40"
                     HorizontalOptions="End" Clicked="AddJournalEntry_Clicked"/>
         
 
@@ -14,7 +14,7 @@
                     <DataTemplate>
                         <ViewCell>
                             <ViewCell.ContextActions>
-                                <MenuItem Text="Delete" IconImageSource="add.png" IsDestructive="True" Clicked="JournalItemDelete_OnClicked"/>
+                                <MenuItem Text="Delete" IsDestructive="True" Clicked="JournalItemDelete_OnClicked"/>
                             </ViewCell.ContextActions>
                             <Grid Padding="5">
                                 <Frame CornerRadius="15" HasShadow="True">

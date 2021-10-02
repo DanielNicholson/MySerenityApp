@@ -4,15 +4,16 @@
              x:Class="MySerenity.Pages.AddJournalPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem x:Name="ToolBarTitle">
-            
-        </ToolbarItem>
+        <ToolbarItem x:Name="ToolBarTitle"/>
+
+        <ToolbarItem x:Name="SaveButton"
+                     Clicked="SubmitJournal_clicked"
+                     IconImageSource="save.png"/>
     </ContentPage.ToolbarItems>
 
 
     <ContentPage.Content>
-        <StackLayout>
-           
+        <StackLayout HorizontalOptions="FillAndExpand">
 
             <Frame Padding="20" VerticalOptions="FillAndExpand">
                 <StackLayout>
@@ -39,7 +40,7 @@
                         </StackLayout>
                     </Frame>
 
-                    <Frame Padding="2" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="{StaticResource MainBlueColor}">
+                    <Frame Padding="2" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="{StaticResource MainBlueColor}" Margin="0,10,0,0">
                         <Picker x:Name="picker"
                                     BackgroundColor="{StaticResource MainBlueColor}"
                                     Title="Rate your mood"
@@ -58,8 +59,6 @@
                     </Frame>
                 </StackLayout>
             </Frame>
-
-            <Button x:Name="Submit" VerticalOptions="End" TextColor="{StaticResource TextColor}" Text="Submit Entry" BackgroundColor="{StaticResource MainBlueColor}" Clicked="SubmitJournal_clicked"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
