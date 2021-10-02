@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:iOsSpecific="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+             x:Class="MySerenity.Pages.LoginPage"
+             iOsSpecific:Page.UseSafeArea="False">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BackgroundColor ="{StaticResource MainBlueColor}" Padding="7.5">
+                <StackLayout>
+                    <Label x:Name="MainBanner" 
+                           Text="My Serenity" 
+                           Style="{StaticResource Header}"/>
+
+                    <Label x:Name="UnderBanner" 
+                           Text="Anxiety Relief App" 
+                           Style="{StaticResource MiniHeader}"/>
+                </StackLayout>
+            </Frame>
+            
+            <Frame VerticalOptions="FillAndExpand">
+
+                <StackLayout Orientation="Vertical" Padding="25" Spacing="25">
+
+                    <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
+
+                        <StackLayout Orientation="Vertical" Spacing="10">
+
+                            <Entry x:Name="EmailEntry" 
+                                   Placeholder="Email"   
+                                   PlaceholderColor="{StaticResource TextColor}" 
+                                   HeightRequest="40"   
+                                   Keyboard="Email"  
+                                   TextColor="{StaticResource TextColor}"/>
+
+                            <Entry x:Name="PasswordEntry" 
+                                   Placeholder="Password"   
+                                   PlaceholderColor="{StaticResource TextColor}" HeightRequest="40"   
+                                   IsPassword="True"  
+                                   TextColor="{StaticResource TextColor}"/>
+
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame BackgroundColor="Transparent">
+
+                        <StackLayout>
+
+                            <Button Clicked="Login_clicked" 
+                                    Text="Login"   
+                                    FontAttributes="Bold" 
+                                    FontSize="Large" 
+                                    HorizontalOptions="FillAndExpand"/>
+
+                            <Button Clicked="Create_account"  
+                                    Text="Create Account"  
+                                    FontAttributes="Bold" 
+                                    FontSize="Large" 
+                                    HorizontalOptions="FillAndExpand" />
+
+                            <Button Clicked="Forgotten_Password"  
+                                    Text="Forgotten Password" 
+                                    TextColor="{StaticResource MainBlueColor}"  
+                                    FontAttributes="Bold" FontSize="Small" 
+                                    HorizontalOptions="Center"   
+                                    BackgroundColor="Transparent" />
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

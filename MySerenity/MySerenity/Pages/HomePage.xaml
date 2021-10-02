@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MySerenity.Pages;assembly=MySerenity"
+             x:Class="MySerenity.Pages.HomePage">
+
+    <local:ExercisePage Title="Exercise"></local:ExercisePage>
+    <local:DashboardPage Title="Dashboard" ></local:DashboardPage>
+    <local:JournalPage Title="Journal"></local:JournalPage>
+
+    
+</TabbedPage>

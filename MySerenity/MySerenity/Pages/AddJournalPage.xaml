@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MySerenity.Pages.AddJournalPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem x:Name="ToolBarTitle">
+            
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+
+    <ContentPage.Content>
+        <StackLayout>
+           
+
+            <Frame Padding="20" VerticalOptions="FillAndExpand">
+                <StackLayout>
+                    <Frame  Padding="20" VerticalOptions="FillAndExpand">
+                        <StackLayout>
+
+                            <Entry x:Name="journalTitle" 
+                                Placeholder="Title"
+                                Text="" CursorPosition="5"
+                                MaxLength="50"
+                                ClearButtonVisibility="WhileEditing"
+                                VerticalOptions="Start"
+                                BackgroundColor="White"
+                            />
+
+                            <Editor x:Name="journalText"
+                                    Placeholder="Journal Entry"
+                                    Text=""
+                                    Keyboard="Chat" 
+                                    VerticalOptions="Fill"
+                                    AutoSize="TextChanges"
+                                    BackgroundColor="White"
+                             />
+                        </StackLayout>
+                    </Frame>
+
+                    <Frame Padding="2" VerticalOptions="End" HorizontalOptions="Center" BackgroundColor="{StaticResource MainBlueColor}">
+                        <Picker x:Name="picker"
+                                    BackgroundColor="{StaticResource MainBlueColor}"
+                                    Title="Rate your mood"
+                                    TitleColor="{StaticResource TextColor}"
+                                    VerticalOptions="End">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>&#x1F604; Happy</x:String>
+                                    <x:String>&#x1F642; Okay</x:String>
+                                    <x:String>&#x1F610; Neutral</x:String>
+                                    <x:String>&#x1F641; Not Okay</x:String>
+                                    <x:String>&#x1F61e; Unhappy</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Frame>
+                </StackLayout>
+            </Frame>
+
+            <Button x:Name="Submit" VerticalOptions="End" TextColor="{StaticResource TextColor}" Text="Submit Entry" BackgroundColor="{StaticResource MainBlueColor}" Clicked="SubmitJournal_clicked"></Button>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
