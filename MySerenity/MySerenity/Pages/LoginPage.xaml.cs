@@ -9,6 +9,7 @@ using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.Xaml;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
 using NavigationPage = Xamarin.Forms.NavigationPage;
+using MySerenity.Helpers;
 
 namespace MySerenity.Pages
 {
@@ -31,6 +32,7 @@ namespace MySerenity.Pages
             }
             else
             {
+                Auth.LoginUser(EmailEntry.Text, PasswordEntry.Text);
                 // navigate
                 Navigation.PushAsync(new HomePage());
             }

@@ -6,7 +6,7 @@
         <ResourceDictionary>
 
             <Color x:Key="MainBlueColor">DarkSlateBlue</Color>
-            <Color x:Key="TextColor">White</Color>
+            <Color x:Key="TextColor">black</Color>
 
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource MainBlueColor}"></Setter>

@@ -24,14 +24,14 @@
                     <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
                         <StackLayout Orientation="Vertical" Spacing="10">
 
-                            <Entry x:Name="Email" 
+                            <Entry x:Name="EmailInput" 
                                    Text="Email" Placeholder="Email"   
                                    PlaceholderColor="{StaticResource TextColor}" 
                                    HeightRequest="40"   
                                    Keyboard="Email"  
                                    TextColor="{StaticResource TextColor}"/>
 
-                            <Entry x:Name="Password" 
+                            <Entry x:Name="PasswordInput" 
                                    Text="Password" 
                                    Placeholder="Password"   
                                    PlaceholderColor="{StaticResource TextColor}" 

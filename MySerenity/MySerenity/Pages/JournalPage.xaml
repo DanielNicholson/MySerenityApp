@@ -24,12 +24,14 @@
                                                 FontSize="20"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding JournalEntryTitle}"
+                                                TextColor="{StaticResource TextColor}"
                                         />
                                         <Label  MaxLines="1"
                                                 VerticalOptions="Center"
                                                 FontSize="12"
                                                 LineBreakMode="TailTruncation"
                                                 Text="{Binding JournalEntryEntryTime}"
+                                                TextColor="{StaticResource TextColor}"
                                         />
                                     </StackLayout>
                                 </Frame>
