@@ -24,7 +24,7 @@ namespace MySerenity.Pages
             this.On<iOS>().SetUseSafeArea(true);
         }
 
-        private void Login_clicked(object sender, EventArgs e)
+        private async void Login_clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(EmailEntry.Text) && string.IsNullOrEmpty(PasswordEntry.Text))
             {
@@ -32,9 +32,9 @@ namespace MySerenity.Pages
             }
             else
             {
-                Auth.LoginUser(EmailEntry.Text, PasswordEntry.Text);
+                bool result = await Auth.LoginUser(EmailEntry.Text, PasswordEntry.Text);
                 // navigate
-                Navigation.PushAsync(new HomePage());
+                if (result) await Navigation.PushAsync(new HomePage());
             }
         }
 

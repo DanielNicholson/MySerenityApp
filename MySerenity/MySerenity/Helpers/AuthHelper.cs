@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace MySerenity.Helpers
@@ -8,8 +10,8 @@ namespace MySerenity.Helpers
 
     public interface IAuth
     {
-        bool RegisterUser(string email, string password);
-        bool LoginUser(string email, string password);
+        Task<bool> RegisterUser(string email, string password);
+        Task<bool> LoginUser(string email, string password);
         bool IsUserAuthenticated();
         string GetCurrentUserID();
     }
@@ -19,28 +21,41 @@ namespace MySerenity.Helpers
     {
         public static IAuth auth = DependencyService.Get<IAuth>();
 
-        public static bool RegisterUser(string email, string password)
+        public static async Task<bool> RegisterUser(string email, string password)
         {
-
-            return true;
+            try
+            {
+                return await auth.RegisterUser(email, password);
+            }
+            catch (Exception e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "Ok");
+                return false;
+            }
+            
         }
 
-        public static bool LoginUser(string email, string password)
+        public static async Task<bool> LoginUser(string email, string password)
         {
-
-            return true;
+            try
+            {
+                return await auth.LoginUser(email, password);
+            }
+            catch (Exception e)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", e.Message, "Ok");
+                return false;
+            }
         }
 
         public static bool IsUserAuthenticated()
         {
-
-            return true;
+            return auth.IsUserAuthenticated();
         }
 
         public static string GetCurrentUserID()
         {
-
-            return "";
+            return auth.GetCurrentUserID();
         }
     }
 }

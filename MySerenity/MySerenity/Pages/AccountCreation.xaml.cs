@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-
-
+using MySerenity.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;
 using Xamarin.Forms.PlatformConfiguration.iOSSpecific;
@@ -24,9 +22,10 @@ namespace MySerenity.Pages
             this.On<iOS>().SetUseSafeArea(true);
         }
 
-        private void Create_Account(object sender, EventArgs e)
+        private async void Create_Account(object sender, EventArgs e)
         {
-           
+            bool result = await Auth.RegisterUser(EmailInput.Text, PasswordInput.Text);
+            if (result) await Navigation.PushAsync(new HomePage());
         }
 
         public static bool IsStrongPassword(string password)
