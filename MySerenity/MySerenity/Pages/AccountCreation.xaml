@@ -18,27 +18,62 @@
                            FontSize="20"/>
                 </StackLayout>
             </Frame>
-            <Frame VerticalOptions="FillAndExpand">
+
+            <Frame VerticalOptions="FillAndExpand" >
                 <StackLayout Orientation="Vertical" Padding="25" Spacing="25">
 
                     <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
                         <StackLayout Orientation="Vertical" Spacing="10">
 
                             <Entry x:Name="EmailInput" 
-                                   Text="Email" Placeholder="Email"   
+                                   Text="" Placeholder="Email"   
                                    PlaceholderColor="{StaticResource TextColor}" 
                                    HeightRequest="40"   
                                    Keyboard="Email"  
                                    TextColor="{StaticResource TextColor}"/>
 
                             <Entry x:Name="PasswordInput" 
-                                   Text="Password" 
+                                   Text="" 
                                    Placeholder="Password"   
                                    PlaceholderColor="{StaticResource TextColor}" 
                                    HeightRequest="40"   
                                    IsPassword="True"  
                                    TextColor="{StaticResource TextColor}"/>
                         </StackLayout>
+                    </Frame>
+
+                    <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Column="0" x:Name="ClientRoleLabel" 
+                                   Text="Client" 
+                                   HorizontalOptions="StartAndExpand" 
+                                   FontSize="13" 
+                                   FontAttributes="Bold"/>
+
+
+                            <Switch Grid.Column="1" 
+                                    x:Name="RoleSelectionSwitch" 
+                                    IsToggled="false" 
+                                    HorizontalOptions="CenterAndExpand" 
+                                    ThumbColor="White" 
+                                    OnColor="DodgerBlue" 
+                                    Toggled="RoleSelectionSwitchToggled"/>
+                          
+                         
+                            <Label Grid.Column="2" 
+                                   x:Name="TherapistRoleLabel" 
+                                   Text="Therapist" 
+                                   HorizontalOptions="EndAndExpand" 
+                                   FontSize="13" />
+
+                        </Grid>
+                        
                     </Frame>
 
                     <Frame BackgroundColor="Transparent">

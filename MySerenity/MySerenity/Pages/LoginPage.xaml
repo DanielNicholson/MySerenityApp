@@ -27,7 +27,8 @@
                         <StackLayout Orientation="Vertical" Spacing="10">
 
                             <Entry x:Name="EmailEntry" 
-                                   Placeholder="Email"   
+                                   Placeholder="Email"  
+                                   Text="Danny.nicholson95@gmail.com"
                                    PlaceholderColor="{StaticResource TextColor}" 
                                    HeightRequest="40"   
                                    Keyboard="Email"  
@@ -35,6 +36,7 @@
 
                             <Entry x:Name="PasswordEntry" 
                                    Placeholder="Password"   
+                                   Text="TestPassword123"
                                    PlaceholderColor="{StaticResource TextColor}" HeightRequest="40"   
                                    IsPassword="True"  
                                    TextColor="{StaticResource TextColor}"/>

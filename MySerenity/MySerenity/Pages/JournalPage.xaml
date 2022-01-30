@@ -7,9 +7,9 @@
             <Button Margin="10, 10" ImageSource="add.png" FontSize="20" Padding="0"
                     CornerRadius="20" HeightRequest="40" WidthRequest="40"
                     HorizontalOptions="End" Clicked="AddJournalEntry_Clicked"/>
-        
 
-            <ListView x:Name="JournalListView" ItemSelected="Handle_Item_Selected" HasUnevenRows="True">
+
+            <ListView x:Name="JournalListView" ItemSelected="Handle_Item_Selected" HasUnevenRows="True" BindingContext="entries">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>

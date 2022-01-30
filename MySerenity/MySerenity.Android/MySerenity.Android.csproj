@@ -60,11 +60,15 @@
     <PackageReference Include="Xamarin.Firebase.Auth">
       <Version>121.0.1.4</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Firestore">
+      <Version>123.0.3.3</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2291" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dependencies\AuthAndroid.cs" />
+    <Compile Include="Dependencies\FirestoreAndriod.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

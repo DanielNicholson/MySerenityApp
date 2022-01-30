@@ -37,7 +37,7 @@ namespace MySerenity.iOS.Dependencies
             }
             catch (Exception e)
             {
-                throw new Exception("Unknown error");
+                throw new Exception(e.Message);
             }
         }
 
@@ -54,7 +54,7 @@ namespace MySerenity.iOS.Dependencies
             }
             catch (Exception e)
             {
-                throw new Exception("Unknown error");
+                throw new Exception(e.Message);
             }
         }
     }

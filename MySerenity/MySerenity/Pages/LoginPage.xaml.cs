@@ -21,28 +21,33 @@ namespace MySerenity.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             this.SetIPhoneSafeArea();
-            this.On<iOS>().SetUseSafeArea(true);
+            this.On<iOS>().SetUseSafeArea(true); // uses full screen on iOS
         }
 
+        // when the user tries to login, get the email and password from the text boxes and make request to firebase to authenticate.
         private async void Login_clicked(object sender, EventArgs e)
         {
+            // check to see if email or password is empty 
             if (string.IsNullOrEmpty(EmailEntry.Text) && string.IsNullOrEmpty(PasswordEntry.Text))
             {
                 // do not navigate
             }
-            else
+            else // if both have been filled out, try to authenticate and login.
             {
                 bool result = await Auth.LoginUser(EmailEntry.Text, PasswordEntry.Text);
-                // navigate
+                
+                // if user has been authenticated, allow user to login. Firebase stores userID if they are authenticated to use against all actions done in app.
                 if (result) await Navigation.PushAsync(new HomePage());
             }
         }
 
+        // navigate to create account screen.
         private void Create_account(object sender, EventArgs e)
         {
             Navigation.PushAsync(new AccountCreation());
         }
 
+        // navigate to forgotten password screen.
         private void Forgotten_Password(object sender, EventArgs e)
         {
 

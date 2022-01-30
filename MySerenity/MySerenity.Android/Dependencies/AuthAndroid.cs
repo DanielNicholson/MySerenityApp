@@ -48,7 +48,7 @@ namespace MySerenity.Droid.Dependencies
             }
             catch (Exception e)
             {
-                throw new Exception("There was an unknown error");
+                throw new Exception(e.Message);
 
             }
         }
@@ -72,10 +72,20 @@ namespace MySerenity.Droid.Dependencies
             {
                 throw new Exception(ex.Message);
             }
+
             catch (Exception e)
             {
-                throw new Exception("There was an unknown error");
+                if (e.Message == "The email address is badly formatted.")
+                {
+                    throw new Exception("The email address is badly formatted - please try again.");
+                }
 
+                if (e.Message == "The email address is badly formatted.")
+                {
+                    throw new Exception("The email address is badly formatted - please try again.");
+                }
+
+                throw new Exception("There was an unknown error");
             }
         }
     }

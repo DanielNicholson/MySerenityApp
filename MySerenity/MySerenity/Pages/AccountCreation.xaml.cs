@@ -15,9 +15,13 @@ namespace MySerenity.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountCreation : ContentPage
     {
+        private bool isUserClient = true;
         public AccountCreation()
         {
             NavigationPage.SetHasNavigationBar(this, false);
+
+
+
             InitializeComponent();
             this.On<iOS>().SetUseSafeArea(true);
         }
@@ -25,7 +29,10 @@ namespace MySerenity.Pages
         private async void Create_Account(object sender, EventArgs e)
         {
             bool result = await Auth.RegisterUser(EmailInput.Text, PasswordInput.Text);
-            if (result) await Navigation.PushAsync(new HomePage());
+            if (result)
+            {
+                await Navigation.PushAsync(new HomePage());
+            }
         }
 
         public static bool IsStrongPassword(string password)
@@ -36,6 +43,22 @@ namespace MySerenity.Pages
         private void return_to_login(object sender, EventArgs e)
         {
             Navigation.PushAsync(new LoginPage());
+        }
+
+        private void RoleSelectionSwitchToggled(object sender, ToggledEventArgs e)
+        {
+            if (RoleSelectionSwitch.IsToggled == true)
+            {
+                TherapistRoleLabel.FontAttributes = FontAttributes.Bold;
+                ClientRoleLabel.FontAttributes = FontAttributes.None;
+                isUserClient = false;
+            }
+            else
+            {
+                TherapistRoleLabel.FontAttributes = FontAttributes.None;
+                ClientRoleLabel.FontAttributes = FontAttributes.Bold;
+                isUserClient = true;
+            }
         }
     }
 }
