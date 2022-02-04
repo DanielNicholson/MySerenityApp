@@ -9,15 +9,25 @@
                     HorizontalOptions="End" Clicked="AddJournalEntry_Clicked"/>
 
 
-            <ListView x:Name="JournalListView" ItemSelected="Handle_Item_Selected" HasUnevenRows="True" BindingContext="entries">
+            <ListView x:Name="JournalListView" 
+                      ItemSelected="Handle_Item_Selected" 
+                      HasUnevenRows="True" 
+                      BindingContext="entries">
+
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+
                             <ViewCell.ContextActions>
-                                <MenuItem Text="Delete" IsDestructive="True" Clicked="JournalItemDelete_OnClicked"/>
+                                <MenuItem Text="Delete" 
+                                          IsDestructive="True" 
+                                          Clicked="JournalItemDelete_OnClicked"/>
                             </ViewCell.ContextActions>
+
                             <Grid Padding="5">
-                                <Frame CornerRadius="15" HasShadow="True">
+                                <Frame CornerRadius="15" 
+                                       HasShadow="True">
+
                                     <StackLayout>
                                         <Label  MaxLines="1"
                                                 VerticalOptions="Center"

@@ -164,5 +164,75 @@ namespace MySerenity.Droid.Dependencies
 
             return entries;
         }
+
+        public bool SaveUserRole(bool isClient)
+        {
+            string role = isClient ? "Client" : "Therapist";
+
+            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create the dictionary to store in firestore
+                var userRole = new Dictionary<string, Object>
+                {
+                    {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"role", role}
+                };
+
+                // make a reference to the firestore collection
+                var collection = FirebaseFirestore.Instance.Collection("UserRole");
+
+                // add the new journal
+                collection.Add(new HashMap(userRole));
+
+                // no errors - return true
+                return true;
+            }
+            catch (Exception e)
+            {
+                // errors - return false
+                return false;
+            }
+        }
+
+        public bool SaveSignUpQuestions(Clientquestionnaire questions)
+        {
+            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create the dictionary to store in firestore
+                var questionsDictionary = new Dictionary<string, Object>
+                {
+                    {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"Gender", questions.Gender},
+                    {"Age", questions.Age},
+                    {"PreviousTherapyExperience", questions.PreviousTherapyExperience},
+                    {"ReasonsForTherapy", questions.ReasonsForTherapy},
+                    {"LowInterestLevels", questions.LowInterestLevels},
+                    {"LowEnergyLevels", questions.LowEnergyLevels},
+                    {"LowMoodLevels", questions.LowMoodLevels},
+                    {"SuicidalThoughts", questions.SuicidalThoughts},
+                    {"CurrentMedication", questions.CurrentMedication},
+                    {"EmergencyContactName", questions.EmergencyContactName},
+                    {"EmergencyContactNumber", questions.EmergencyContactNumber},
+                    {"IsApproved", false},
+
+                };
+
+                // make a reference to the firestore collection
+                var collection = FirebaseFirestore.Instance.Collection("Clientquestionnaire");
+
+                // add the new journal
+                collection.Add(new HashMap(questionsDictionary));
+
+                // no errors - return true
+                return true;
+            }
+            catch (Exception e)
+            {
+                // errors - return false
+                return false;
+            }
+        }
     }
 }

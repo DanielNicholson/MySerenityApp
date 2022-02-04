@@ -172,5 +172,15 @@ namespace MySerenity.iOS.Dependencies
                 return new List<JournalEntry>();
             }
         }
+
+        public bool SaveUserRole(bool userRole)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveSignUpQuestions(Clientquestionnaire questions)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

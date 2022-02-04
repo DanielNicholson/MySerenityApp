@@ -3,97 +3,312 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySerenity.Pages.AccountCreation">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame BackgroundColor ="{StaticResource MainBlueColor}" 
-                   Padding="7.5" >
-                <StackLayout>
-                    <Label x:Name="MainBanner" 
-                           Text="My Serenity" 
-                           HorizontalTextAlignment="Center" 
-                           FontSize="60"/>
+        <ScrollView VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand">
 
-                    <Label x:Name="UnderBanner"
-                           Text="Anxiety Relief App"
-                           HorizontalTextAlignment="Center" 
-                           FontSize="20"/>
-                </StackLayout>
-            </Frame>
+                <!--Frame containing Page banner-->
+                <Frame BackgroundColor ="{StaticResource MainBlueColor}" 
+                       Padding="7.5" >
+                    <StackLayout>
+                        <Label x:Name="MainBanner" 
+                               Text="My Serenity" 
+                               HorizontalTextAlignment="Center" 
+                               FontSize="60"/>
 
-            <Frame VerticalOptions="FillAndExpand" >
-                <StackLayout Orientation="Vertical" Padding="25" Spacing="25">
+                        <Label x:Name="UnderBanner"
+                               Text="Anxiety Relief App"
+                               HorizontalTextAlignment="Center" 
+                               FontSize="20"/>
+                    </StackLayout>
+                </Frame>
 
-                    <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
-                        <StackLayout Orientation="Vertical" Spacing="10">
+                
+                <Frame VerticalOptions="FillAndExpand" >
+                    <StackLayout Orientation="Vertical" Padding="25" Spacing="25">
 
-                            <Entry x:Name="EmailInput" 
-                                   Text="" Placeholder="Email"   
-                                   PlaceholderColor="{StaticResource TextColor}" 
-                                   HeightRequest="40"   
-                                   Keyboard="Email"  
-                                   TextColor="{StaticResource TextColor}"/>
+                        <!--Frame containing email and password input-->
+                        <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False" >
+                            <StackLayout Orientation="Vertical" Spacing="10">
 
-                            <Entry x:Name="PasswordInput" 
-                                   Text="" 
-                                   Placeholder="Password"   
-                                   PlaceholderColor="{StaticResource TextColor}" 
-                                   HeightRequest="40"   
-                                   IsPassword="True"  
-                                   TextColor="{StaticResource TextColor}"/>
-                        </StackLayout>
-                    </Frame>
+                                <Entry x:Name="EmailInput" 
+                                       Text="" Placeholder="Email"   
+                                       PlaceholderColor="{StaticResource TextColor}" 
+                                       HeightRequest="40"   
+                                       Keyboard="Email"  
+                                       TextColor="{StaticResource TextColor}"/>
 
-                    <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
+                                <Entry x:Name="PasswordInput" 
+                                       Text="" 
+                                       Placeholder="Password"   
+                                       PlaceholderColor="{StaticResource TextColor}" 
+                                       HeightRequest="40"   
+                                       IsPassword="True"  
+                                       TextColor="{StaticResource TextColor}"/>
+                            </StackLayout>
+                        </Frame>
 
-                            <Label Grid.Column="0" x:Name="ClientRoleLabel" 
-                                   Text="Client" 
-                                   HorizontalOptions="StartAndExpand" 
-                                   FontSize="13" 
-                                   FontAttributes="Bold"/>
+                        <!--Frame containing user role selection-->
+                        <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False" >
+                            <Grid>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Row 0 - client or therapist question label-->
+                                <Label Grid.Column="0" 
+                                       Grid.Row="0"
+
+                                       x:Name="ClientRoleQuestionLabel" 
+                                       Text="Are you signing up as a client?" 
+                                       HorizontalOptions="StartAndExpand" 
+                                        />
+
+                                       <!-- Row 1 - client label and switch-->
+                                <Label Grid.Column="0" 
+                                       Grid.Row="1"
+                                       x:Name="ClientRoleLabel" 
+                                       Text="Client" 
+                                       HorizontalOptions="StartAndExpand" 
+                                       FontAttributes="None"/>
+
+                                <Switch Grid.Column="1" 
+                                        Grid.Row="1"
+                                        x:Name="ClientRoleSwitch" 
+                                        IsToggled="False" 
+                                        HorizontalOptions="CenterAndExpand" 
+                                        ThumbColor="White" 
+                                        OnColor="DodgerBlue" 
+                                        Toggled="ClientRoleSwitchSwitched"/>
+
+                                <!-- Row 2 - Therapist label and switch-->
+                                <Label Grid.Column="0" 
+                                       Grid.Row="2"
+                                       x:Name="TherapistRoleLabel" 
+                                       Text="Therapist" 
+                                       HorizontalOptions="StartAndExpand" 
+                                       FontAttributes="None"/>
+
+                                <Switch Grid.Column="1" 
+                                        Grid.Row="2"
+                                        x:Name="TherapistRoleSwitch" 
+                                        IsToggled="false" 
+                                        HorizontalOptions="CenterAndExpand" 
+                                        ThumbColor="White" 
+                                        OnColor="DodgerBlue" 
+                                        Toggled="TherapistRoleSwitchSwitched"/>
+
+                            </Grid>
+                        </Frame>
+
+                        <!--Frame containing questions for client when signing up - only visible when client switch is true-->
+                        <Frame x:Name="ClientSignUpQuestions"
+                               VerticalOptions="EndAndExpand" 
+                               BackgroundColor="{StaticResource MainBlueColor}" 
+                               HasShadow="False"
+                               IsVisible="False">
+
+                            <Grid RowSpacing="15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!--Row 0 - contains gender selection-->
+                                <Label Grid.Row="0" Grid.Column="0"  Text="What is your gender?" />
+                                <Picker Grid.Row="0" Grid.Column="1" x:Name="GenderPicker" Title="Gender" BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Male</x:String>
+                                            <x:String>Female</x:String>
+                                            <x:String>Other</x:String>
+                                            <x:String>Prefer not to say</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 1 - contains age selection-->
+                                <Label Grid.Row="1" Grid.Column="0" Text="How old are you?" />
+                                <Picker Grid.Row="1" Grid.Column="1" x:Name="AgePicker" BackgroundColor="White" SelectedIndex="0" ItemsSource="{Binding ageList}">
+                                </Picker>
+
+                                <!--Row 2 - contains previous therapy question selection-->
+                                <Label Grid.Row="2" Grid.Column="0" Text="Have you ever been to therapy before?" />
+                                <Picker Grid.Row="2" Grid.Column="1" x:Name="TherapyExperiencePicker" BackgroundColor="White" SelectedIndex="0">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Yes</x:String>
+                                            <x:String>No</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 3 - contains therapy reasons selection-->
+                                <Label Grid.Row="3" Grid.Column="0" Text="Why are you considering therapy today?" />
+                                <Grid Grid.Row="3" Grid.Column="1" VerticalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="Anxiety"  Grid.Row="0" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="0" Grid.Column="1" x:Name="AnxietyBox" />
+
+                                    <Label Text="Depression"  Grid.Row="1" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="DepressionBox"/>
+
+                                    <Label Text="Mood swings"  Grid.Row="2" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="1" x:Name="MoodBox"/>
+
+                                    <Label Text="Relationships"  Grid.Row="3" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="3" Grid.Column="1" x:Name="RelationshipBox"/>
+
+                                    <Label Text="Grief"  Grid.Row="4" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="4" Grid.Column="1" x:Name="GriefBox"/>
+
+                                    <Label Text="Trauma"  Grid.Row="5" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="5" Grid.Column="1" x:Name="TraumaBox"/>
+
+                                    <Label Text="Other"  Grid.Row="6" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="6" Grid.Column="1" x:Name="OtherBox"/>
+
+                                </Grid>
+
+                                <!--Row 4 - contains Interest Level Picker selection-->
+                                <Label Grid.Row="4" Grid.Column="0"  Text="Over the last few weeks, how often have you had little interest in doing things?" />
+                                <Picker Grid.Row="4" Grid.Column="1" x:Name="InterestLevelPicker"  BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Not at all</x:String>
+                                            <x:String>Some Days</x:String>
+                                            <x:String>Most Days</x:String>
+                                            <x:String>Every Day</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 5 - contains Energy Level Picker selection-->
+                                <Label Grid.Row="5" Grid.Column="0"  Text="Over the last few weeks, how often have you felt tired or had little energy?" />
+                                <Picker Grid.Row="5" Grid.Column="1" x:Name="EnergyLevelPicker"  BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Not at all</x:String>
+                                            <x:String>Some Days</x:String>
+                                            <x:String>Most Days</x:String>
+                                            <x:String>Every Day</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 6 - contains Depression Level Picker selection-->
+                                <Label Grid.Row="6" Grid.Column="0"  Text="Over the last few weeks, how often have you felt bad about yourself?" />
+                                <Picker Grid.Row="6" Grid.Column="1" x:Name="DepressedLevelPicker"  BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Not at all</x:String>
+                                            <x:String>Some Days</x:String>
+                                            <x:String>Most Days</x:String>
+                                            <x:String>Every Day</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 7 - contains Suicide risk Picker selection-->
+                                <Label Grid.Row="7" Grid.Column="0"  Text="When was the last time you thought about suicide?" />
+                                <Picker Grid.Row="7" Grid.Column="1" x:Name="SuicideLevelPicker"  BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Never</x:String>
+                                            <x:String>In the last 2 weeks</x:String>
+                                            <x:String>Over 2 weeks ago</x:String>
+                                            <x:String>Over a month ago</x:String>
+                                            <x:String>Over three months ago</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 8 - contains Suicide risk Picker selection-->
+                                <Label Grid.Row="8" Grid.Column="0"  Text="Are you currently taking medication?" />
+                                <Picker Grid.Row="8" Grid.Column="1" x:Name="MedicationPicker"  BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Yes</x:String>
+                                            <x:String>No</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
 
 
-                            <Switch Grid.Column="1" 
-                                    x:Name="RoleSelectionSwitch" 
-                                    IsToggled="false" 
-                                    HorizontalOptions="CenterAndExpand" 
-                                    ThumbColor="White" 
-                                    OnColor="DodgerBlue" 
-                                    Toggled="RoleSelectionSwitchToggled"/>
-                          
-                         
-                            <Label Grid.Column="2" 
-                                   x:Name="TherapistRoleLabel" 
-                                   Text="Therapist" 
-                                   HorizontalOptions="EndAndExpand" 
-                                   FontSize="13" />
+                                <!--Row 9 - Contact name input-->
+                                <Label Grid.Row="9" Grid.Column="0"  Text="Who is your emergency contact?" />
+                                <Entry Grid.Row="9" Grid.Column="1" Placeholder="Contact Name" x:Name="NameEntry"/>
 
-                        </Grid>
-                        
-                    </Frame>
+                                <!--Row 10 - Contact number input-->
+                                <Label Grid.Row="10" Grid.Column="0"  Text="Who is their contact number?" />
+                                <Entry Grid.Row="10" Grid.Column="1" Placeholder="Contact Number" x:Name="NumberEntry"/>
+                            </Grid>
+                        </Frame>
 
-                    <Frame BackgroundColor="Transparent">
-                        <StackLayout>
-                            <Button Clicked="Create_Account" 
-                                    Text="Create Account"
-                                    FontAttributes="Bold" 
-                                    FontSize="Large" 
-                                    HorizontalOptions="FillAndExpand" />
 
-                            <Button Clicked="return_to_login"  
-                                    Text="Return to Login " 
-                                    FontAttributes="Bold" 
-                                    FontSize="Large" 
-                                    HorizontalOptions="FillAndExpand"  />
+                        <!--Frame containing questions for therapist when signing up - only visible when therapist switch is true-->
+                        <Frame x:Name="TherapistSignUpQuestions"
+                               IsVisible="False"
+                               VerticalOptions="Start" 
+                               BackgroundColor="{StaticResource MainBlueColor}"
+                               HasShadow="False">
 
-                        </StackLayout>
-                    </Frame>
-                </StackLayout>
-            </Frame>
-        </StackLayout>
+                            <Label Text="Therapist Questions" />
+                        </Frame>
+
+                        <!--Frame containing create account button and homepage navigation-->
+                        <Frame BackgroundColor="Transparent">
+                            <StackLayout>
+                                <Button Clicked="Create_Account" 
+                                        Text="Create Account"
+                                        FontAttributes="Bold" 
+                                        FontSize="Large" 
+                                        HorizontalOptions="FillAndExpand" />
+
+                                <Button Clicked="return_to_login"  
+                                        Text="Return to Login " 
+                                        FontAttributes="Bold" 
+                                        FontSize="Large" 
+                                        HorizontalOptions="FillAndExpand"  />
+
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

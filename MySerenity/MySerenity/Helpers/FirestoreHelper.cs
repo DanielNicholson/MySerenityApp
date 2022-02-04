@@ -16,7 +16,8 @@ namespace MySerenity.Helpers
         Task<bool> DeleteJournalEntry(JournalEntry entry);            // delete selected entry from firestore
         Task<bool> UpdateJournalEntry(JournalEntry entry);            // Update selected entry in firestore
         Task<List<JournalEntry>> ReadAllJournalEntriesForUser();      // retrieve list of all entries for current authenticated user from firestore
-
+        bool SaveUserRole(bool isClient);                             // saves the user role to firestore upon account creation
+        bool SaveSignUpQuestions(Clientquestionnaire questions);       // saves journal entry to firestore
 
     }
 
@@ -47,6 +48,16 @@ namespace MySerenity.Helpers
         public static Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
         {
             return firestore.ReadAllJournalEntriesForUser();
+        }
+
+        public static bool SaveUserRole(bool isClient)
+        {
+            return firestore.SaveUserRole(isClient);
+        }
+
+        public static bool SaveSignUpQuestions(Clientquestionnaire questions)
+        {
+            return firestore.SaveSignUpQuestions(questions);
         }
     }
 

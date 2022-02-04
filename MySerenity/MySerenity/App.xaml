@@ -15,6 +15,7 @@
 
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="FontSize" Value="17"></Setter>
             </Style>
 
             <Style x:Key="Header" TargetType="Label">
