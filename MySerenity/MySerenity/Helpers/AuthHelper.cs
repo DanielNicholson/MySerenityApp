@@ -13,7 +13,7 @@ namespace MySerenity.Helpers
         Task<bool> RegisterUser(string email, string password);
         Task<bool> LoginUser(string email, string password);
         bool IsUserAuthenticated();
-        string GetCurrentUserID();
+        string GetCurrentUserId();
     }
 
 
@@ -53,9 +53,9 @@ namespace MySerenity.Helpers
             return auth.IsUserAuthenticated();
         }
 
-        public static string GetCurrentUserID()
+        public static string GetCurrentUserId()
         {
-            return auth.GetCurrentUserID();
+            return auth.GetCurrentUserId();
         }
     }
 }

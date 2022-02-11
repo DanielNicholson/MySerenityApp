@@ -16,7 +16,7 @@ namespace MySerenity.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountCreation : ContentPage
     {
-        private List<int> ageList = new List<int>();
+        private List<int> _ageList = new List<int>();
 
         private bool _isUserClient = true;
         public AccountCreation()
@@ -25,14 +25,14 @@ namespace MySerenity.Pages
 
             for (int i = 16; i < 100; i++)
             {
-                ageList.Add(i);
+                _ageList.Add(i);
             }
 
             InitializeComponent();
             this.On<iOS>().SetUseSafeArea(true);
 
             AgePicker.ItemsSource = null;
-            AgePicker.ItemsSource = ageList;
+            AgePicker.ItemsSource = _ageList;
         }
 
         private async void Create_Account(object sender, EventArgs e)
@@ -76,10 +76,39 @@ namespace MySerenity.Pages
                         reasonsForTherapy += "Other, ";
                     }
 
+                    // build Therapist Preferences string
+                    string therapistPreferences = "";
+                    if (MaleBox.IsChecked)
+                    {
+                        therapistPreferences += "Male, ";
+                    }
+                    if (FemaleBox.IsChecked)
+                    {
+                        therapistPreferences += "Female, ";
+                    }
+                    if (ReligiousBox.IsChecked)
+                    {
+                        therapistPreferences += "Religious, ";
+                    }
+                    if (LGBTQBox.IsChecked)
+                    {
+                        therapistPreferences += "LGBTQ+, ";
+                    }
+                    if (OlderBox.IsChecked)
+                    {
+                        therapistPreferences += "Older (40+), ";
+                    }
+                    if (ColourBox.IsChecked)
+                    {
+                        therapistPreferences += "Therapist of colour, ";
+                    }
+
+                    
+
                     Clientquestionnaire signup = new Clientquestionnaire()
                     {
                         Gender = GenderPicker.SelectedItem.ToString(),
-                        Age = Int32.Parse(AgePicker.SelectedItem.ToString()),
+                        Age = int.Parse(AgePicker.SelectedItem.ToString()),
                         PreviousTherapyExperience = TherapyExperiencePicker.SelectedItem.ToString(),
                         ReasonsForTherapy = reasonsForTherapy,
                         LowInterestLevels = InterestLevelPicker.SelectedItem.ToString(),
@@ -87,20 +116,30 @@ namespace MySerenity.Pages
                         LowMoodLevels = DepressedLevelPicker.SelectedItem.ToString(),
                         SuicidalThoughts = SuicideLevelPicker.SelectedItem.ToString(),
                         CurrentMedication = MedicationPicker.SelectedItem.ToString(),
+                        TherapistPreferences = therapistPreferences,
                         EmergencyContactName = NameEntry.Text,
                         EmergencyContactNumber = NumberEntry.Text,
-                        IsApproved = false
                     };
 
-                    Firestore.SaveSignUpQuestions(signup);
-                }
-                else
-                {
-                    
-                }
 
-                
-                await Navigation.PushAsync(new HomePage());
+                    Firestore.ClientLookingForTherapist(new ClientTherapistRelationship());
+                    Firestore.SaveSignUpQuestions(signup);
+
+                    await Navigation.PushAsync(new HomePage());
+                }
+                else // therapist sign up logic
+                {
+                    TherapistInfo signupInfo = new TherapistInfo()
+                    {
+                        Name = TherapistNameEntry.Text,
+                        Membership = MembershipPicker.SelectedItem.ToString(),
+                        MySerenityInterest = TherapistInterestPicker.SelectedItem.ToString(),
+                        MySerenityTime = TherapistTimePicker.SelectedItem.ToString(),
+                        MySerenityAwareness = TherapistAwarenessPicker.SelectedItem.ToString()
+                    };
+
+                    Firestore.SaveTherapistInfo(signupInfo);
+                }
             }
         }
 

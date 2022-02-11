@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,7 +50,7 @@ namespace MySerenity.Pages
             {
                 JournalEntryTitle = journalTitle.Text,
                 JournalEntryText = journalText.Text,
-                JournalEntryEntryTime = System.DateTime.Now.ToString(),
+                JournalEntryEntryTime = System.DateTime.Now.ToString(new CultureInfo("en-GB")),
                 JournalEntryMoodData = picker.SelectedIndex
             };
 

@@ -11,6 +11,7 @@ using System.Runtime.Remoting;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Android.Gms.Extensions;
 using Android.Gms.Tasks;
 using Firebase.Auth;
 using Firebase.Firestore;
@@ -27,11 +28,11 @@ namespace MySerenity.Droid.Dependencies
     public class FirestoreAndriod : IFirestore
     {
         // used to return when retrieving all entries from the firestore
-        private List<JournalEntry> entries;
+        private List<JournalEntry> _entries;
 
         public FirestoreAndriod()
         {
-            entries = new List<JournalEntry>();
+            _entries = new List<JournalEntry>();
         }
 
         // saves a journal entry to firestore
@@ -75,7 +76,7 @@ namespace MySerenity.Droid.Dependencies
                 var collection = FirebaseFirestore.Instance.Collection("JournalEntries");
 
                 // delete entry by ID
-                collection.Document(entry.ID).Delete();
+                collection.Document(entry.Id).Delete();
 
                 // no errors - return true
                 return true;
@@ -108,7 +109,7 @@ namespace MySerenity.Droid.Dependencies
                 var collection = FirebaseFirestore.Instance.Collection("JournalEntries");
 
                 // update the document by ID with the dictionary of values
-                collection.Document(entry.ID).Update(journalEntry);
+                collection.Document(entry.Id).Update(journalEntry);
 
                 // return true if no errors
                 return true;
@@ -120,50 +121,6 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
-        public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
-        {
-            // get collection of all journal entries where the current authenticated userID matches the userID of the document.
-            var collection = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid).Get();
-
-            // delay to allow the connection to load the entries.
-            Thread.Sleep(500);
-            
-            // if the query was successful - Parse data into JournalEntry items.
-            if (collection.IsSuccessful)
-            {
-                // cast results into a Snapshot to loop through the data.
-                var journalEntries = (QuerySnapshot)collection.Result;
-
-                // clear list of current journal entries to avoid duplication
-                entries.Clear();
-
-                // loop through all documents in query
-                foreach (var entry in journalEntries.Documents)
-                {
-                    // create a new Journal Entry and fill in all values in document
-                    var newJournal = new JournalEntry()
-                    {
-                        UserID = entry.Get("userID").ToString(),
-                        JournalEntryTitle = entry.Get("journalEntryTitle").ToString(),
-                        JournalEntryText = entry.Get("journalEntryText").ToString(),
-                        JournalEntryMoodData = Int32.Parse(entry.Get("journalEntryMoodData").ToString()),
-                        JournalEntryEntryTime = entry.Get("journalEntryEntryTime").ToString(),
-                        ID = entry.Id
-                    };
-
-                    // add the entry to list and reverse to show in correct order
-                    entries.Add(newJournal);
-                    entries.Reverse();
-                }
-            }
-            else
-            {
-                // query failed, clear list so user doesn't see anything
-                entries.Clear();
-            }
-
-            return entries;
-        }
 
         public bool SaveUserRole(bool isClient)
         {
@@ -212,11 +169,10 @@ namespace MySerenity.Droid.Dependencies
                     {"LowEnergyLevels", questions.LowEnergyLevels},
                     {"LowMoodLevels", questions.LowMoodLevels},
                     {"SuicidalThoughts", questions.SuicidalThoughts},
+                    {"TherapistPreferences", questions.TherapistPreferences},
                     {"CurrentMedication", questions.CurrentMedication},
                     {"EmergencyContactName", questions.EmergencyContactName},
                     {"EmergencyContactNumber", questions.EmergencyContactNumber},
-                    {"IsApproved", false},
-
                 };
 
                 // make a reference to the firestore collection
@@ -233,6 +189,134 @@ namespace MySerenity.Droid.Dependencies
                 // errors - return false
                 return false;
             }
+        }
+
+        public bool ClientLookingForTherapist(ClientTherapistRelationship relation)
+        {
+            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create the dictionary to store in firestore
+                var relationDictionary = new Dictionary<string, Object>
+                {
+                    {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"TherapistID", "NULL"},
+                    {"IsApproved", false},
+                };
+
+                // make a reference to the firestore collection
+                var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
+
+                // add the new entry
+                collection.Add(new HashMap(relationDictionary));
+
+                // no errors - return true
+                return true;
+            }
+            catch (Exception e)
+            {
+                // errors - return false
+                return false;
+            }
+        }
+
+        public bool SaveTherapistInfo(TherapistInfo info)
+        {
+            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create the dictionary to store in firestore
+                var relationDictionary = new Dictionary<string, Object>
+                {
+                    {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"Name",  info.Name},
+                    {"Membership", info.Membership},
+                    {"MySerenityInterest", info.MySerenityInterest},
+                    {"MySerenityTime", info.MySerenityTime},
+                    {"MySerenityAwareness", info.MySerenityAwareness}
+                };
+
+                // make a reference to the firestore collection
+                var collection = FirebaseFirestore.Instance.Collection("TherapistInfo");
+
+                // add the new therapist info
+                collection.Add(new HashMap(relationDictionary));
+
+                // no errors - return true
+                return true;
+            }
+            catch (Exception e)
+            {
+                // errors - return false
+                return false;
+            }
+        }
+
+        public async Task<string> GetUserRole()
+        {
+            string role = "";
+
+            // get collection of all user roles where the current authenticated userID matches the userID of the document.
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("UserRole").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
+
+            if (collectionSnapshot.Size() == 1)
+            {
+                foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
+                {
+                    role = doc.Get("role").ToString();
+                }
+
+                return role;
+            }
+            throw new Exception("User Role Not Found");
+        }
+
+
+        public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
+        {
+            // get collection of all journal entries where the current authenticated userID matches the userID of the document.
+            var collection = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid).Get();
+
+            // delay to allow the connection to load the entries.
+            Thread.Sleep(500);
+
+            // if the query was successful - Parse data into JournalEntry items.
+            if (collection.IsSuccessful)
+            {
+                // cast results into a Snapshot to loop through the data.
+                var journalEntries = (QuerySnapshot)collection.Result;
+
+                // clear list of current journal entries to avoid duplication
+                _entries.Clear();
+
+                // loop through all documents in query
+                foreach (var entry in journalEntries.Documents)
+                {
+                    // create a new Journal Entry and fill in all values in document
+                    var newJournal = new JournalEntry()
+                    {
+                        UserId = entry.Get("userID").ToString(),
+                        JournalEntryTitle = entry.Get("journalEntryTitle").ToString(),
+                        JournalEntryText = entry.Get("journalEntryText").ToString(),
+                        JournalEntryMoodData = Int32.Parse(entry.Get("journalEntryMoodData").ToString()),
+                        JournalEntryEntryTime = entry.Get("journalEntryEntryTime").ToString(),
+                        Id = entry.Id
+                    };
+
+                    // add the entry to list and reverse to show in correct order
+                    _entries.Add(newJournal);
+
+                }
+            }
+            else
+            {
+                // query failed, clear list so user doesn't see anything
+                _entries.Clear();
+            }
+
+            _entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
+            return _entries;
         }
     }
 }

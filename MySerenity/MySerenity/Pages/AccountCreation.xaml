@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySerenity.Pages.AccountCreation">
     <ContentPage.Content>
-        <ScrollView VerticalOptions="FillAndExpand">
+        <StackLayout>
+        <ScrollView VerticalOptions="EndAndExpand">
             <StackLayout VerticalOptions="FillAndExpand">
 
                 <!--Frame containing Page banner-->
@@ -24,14 +25,15 @@
 
                 
                 <Frame VerticalOptions="FillAndExpand" >
-                    <StackLayout Orientation="Vertical" Padding="25" Spacing="25">
+                    <StackLayout Orientation="Vertical" Padding="10" Spacing="10">
 
                         <!--Frame containing email and password input-->
                         <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False" >
                             <StackLayout Orientation="Vertical" Spacing="10">
 
                                 <Entry x:Name="EmailInput" 
-                                       Text="" Placeholder="Email"   
+                                       Text="" Placeholder="Email"  
+                                       HorizontalTextAlignment="Center"
                                        PlaceholderColor="{StaticResource TextColor}" 
                                        HeightRequest="40"   
                                        Keyboard="Email"  
@@ -39,7 +41,8 @@
 
                                 <Entry x:Name="PasswordInput" 
                                        Text="" 
-                                       Placeholder="Password"   
+                                       Placeholder="Password"  
+                                       HorizontalTextAlignment="Center"
                                        PlaceholderColor="{StaticResource TextColor}" 
                                        HeightRequest="40"   
                                        IsPassword="True"  
@@ -48,13 +51,13 @@
                         </Frame>
 
                         <!--Frame containing user role selection-->
-                        <Frame VerticalOptions="Start" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False" >
+                        <Frame VerticalOptions="End" BackgroundColor="{StaticResource MainBlueColor}" HasShadow="False" >
                             <Grid>
 
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
-                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
@@ -110,7 +113,7 @@
 
                         <!--Frame containing questions for client when signing up - only visible when client switch is true-->
                         <Frame x:Name="ClientSignUpQuestions"
-                               VerticalOptions="EndAndExpand" 
+                               VerticalOptions="End" 
                                BackgroundColor="{StaticResource MainBlueColor}" 
                                HasShadow="False"
                                IsVisible="False">
@@ -121,17 +124,18 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />  <!--Row 0 - contains gender selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 1 - contains age selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 2 - contains previous therapy question selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 3 - contains therapy reasons selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 4 - contains Interest Level Picker selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 5 - contains Energy Level Picker selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 6 - contains Depression Level Picker selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 7 - contains Suicide risk Picker selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 8 - contains Medication Picker selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 9 - contains therapy reasons selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 10 - Contact name input-->
+                                    <RowDefinition Height="Auto" />  <!--Row 11 - Contact number input-->
                                 </Grid.RowDefinitions>
 
                                 <!--Row 0 - contains gender selection-->
@@ -149,12 +153,12 @@
 
                                 <!--Row 1 - contains age selection-->
                                 <Label Grid.Row="1" Grid.Column="0" Text="How old are you?" />
-                                <Picker Grid.Row="1" Grid.Column="1" x:Name="AgePicker" BackgroundColor="White" SelectedIndex="0" ItemsSource="{Binding ageList}">
+                                <Picker Grid.Row="1" Grid.Column="1" x:Name="AgePicker" Title="Age" BackgroundColor="White" SelectedIndex="0" ItemsSource="{Binding ageList}">
                                 </Picker>
 
                                 <!--Row 2 - contains previous therapy question selection-->
                                 <Label Grid.Row="2" Grid.Column="0" Text="Have you ever been to therapy before?" />
-                                <Picker Grid.Row="2" Grid.Column="1" x:Name="TherapyExperiencePicker" BackgroundColor="White" SelectedIndex="0">
+                                <Picker Grid.Row="2" Grid.Column="1" x:Name="TherapyExperiencePicker" Title="Yes" BackgroundColor="White" SelectedIndex="0">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Yes</x:String>
@@ -205,7 +209,7 @@
 
                                 <!--Row 4 - contains Interest Level Picker selection-->
                                 <Label Grid.Row="4" Grid.Column="0"  Text="Over the last few weeks, how often have you had little interest in doing things?" />
-                                <Picker Grid.Row="4" Grid.Column="1" x:Name="InterestLevelPicker"  BackgroundColor="White">
+                                <Picker Grid.Row="4" Grid.Column="1" x:Name="InterestLevelPicker" Title="Interest Levels" BackgroundColor="White">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Not at all</x:String>
@@ -218,7 +222,7 @@
 
                                 <!--Row 5 - contains Energy Level Picker selection-->
                                 <Label Grid.Row="5" Grid.Column="0"  Text="Over the last few weeks, how often have you felt tired or had little energy?" />
-                                <Picker Grid.Row="5" Grid.Column="1" x:Name="EnergyLevelPicker"  BackgroundColor="White">
+                                <Picker Grid.Row="5" Grid.Column="1" x:Name="EnergyLevelPicker" Title="Low Energy" BackgroundColor="White">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Not at all</x:String>
@@ -231,7 +235,7 @@
 
                                 <!--Row 6 - contains Depression Level Picker selection-->
                                 <Label Grid.Row="6" Grid.Column="0"  Text="Over the last few weeks, how often have you felt bad about yourself?" />
-                                <Picker Grid.Row="6" Grid.Column="1" x:Name="DepressedLevelPicker"  BackgroundColor="White">
+                                <Picker Grid.Row="6" Grid.Column="1" x:Name="DepressedLevelPicker" Title="Low Mood" BackgroundColor="White">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Not at all</x:String>
@@ -244,7 +248,7 @@
 
                                 <!--Row 7 - contains Suicide risk Picker selection-->
                                 <Label Grid.Row="7" Grid.Column="0"  Text="When was the last time you thought about suicide?" />
-                                <Picker Grid.Row="7" Grid.Column="1" x:Name="SuicideLevelPicker"  BackgroundColor="White">
+                                <Picker Grid.Row="7" Grid.Column="1" x:Name="SuicideLevelPicker" Title="Suicide" BackgroundColor="White">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Never</x:String>
@@ -256,9 +260,9 @@
                                     </Picker.ItemsSource>
                                 </Picker>
 
-                                <!--Row 8 - contains Suicide risk Picker selection-->
+                                <!--Row 8 - contains Medication Picker selection-->
                                 <Label Grid.Row="8" Grid.Column="0"  Text="Are you currently taking medication?" />
-                                <Picker Grid.Row="8" Grid.Column="1" x:Name="MedicationPicker"  BackgroundColor="White">
+                                <Picker Grid.Row="8" Grid.Column="1" x:Name="MedicationPicker" Title="Medication" BackgroundColor="White">
                                     <Picker.ItemsSource>
                                         <x:Array Type="{x:Type x:String}">
                                             <x:String>Yes</x:String>
@@ -267,14 +271,50 @@
                                     </Picker.ItemsSource>
                                 </Picker>
 
+                                <!--Row 9 - contains therapist preference selection-->
+                                <Label Grid.Row="9" Grid.Column="0" Text="Do you have any preferences for a therapist?" />
+                                <Grid Grid.Row="9" Grid.Column="1" VerticalOptions="FillAndExpand">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
 
-                                <!--Row 9 - Contact name input-->
-                                <Label Grid.Row="9" Grid.Column="0"  Text="Who is your emergency contact?" />
-                                <Entry Grid.Row="9" Grid.Column="1" Placeholder="Contact Name" x:Name="NameEntry"/>
+                                    <Label Text="Male"  Grid.Row="0" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="0" Grid.Column="1" x:Name="MaleBox" />
 
-                                <!--Row 10 - Contact number input-->
-                                <Label Grid.Row="10" Grid.Column="0"  Text="Who is their contact number?" />
-                                <Entry Grid.Row="10" Grid.Column="1" Placeholder="Contact Number" x:Name="NumberEntry"/>
+                                    <Label Text="Female"  Grid.Row="1" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="1" Grid.Column="1" x:Name="FemaleBox"/>
+
+                                    <Label Text="Religious"  Grid.Row="2" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="2" Grid.Column="1" x:Name="ReligiousBox"/>
+
+                                    <Label Text="LGBTQ+"  Grid.Row="3" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="3" Grid.Column="1" x:Name="LGBTQBox"/>
+
+                                    <Label Text="Older"  Grid.Row="4" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="4" Grid.Column="1" x:Name="OlderBox"/>
+
+                                    <Label Text="Of colour"  Grid.Row="5" Grid.Column="0"/>
+                                    <CheckBox Grid.Row="5" Grid.Column="1" x:Name="ColourBox"/>
+
+                                </Grid>
+
+
+                                <!--Row 10 - Contact name input-->
+                                <Label Grid.Row="10" Grid.Column="0"  Text="Who is your emergency contact?" />
+                                <Entry Grid.Row="10" Grid.Column="1" Placeholder="Contact Name" x:Name="NameEntry"/>
+
+                                <!--Row 11 - Contact number input-->
+                                <Label Grid.Row="11" Grid.Column="0"  Text="What is their contact number?" />
+                                <Entry Grid.Row="11" Grid.Column="1" Placeholder="Contact Number" x:Name="NumberEntry"/>
                             </Grid>
                         </Frame>
 
@@ -286,7 +326,88 @@
                                BackgroundColor="{StaticResource MainBlueColor}"
                                HasShadow="False">
 
-                            <Label Text="Therapist Questions" />
+                            <Grid RowSpacing="15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />  <!--Row 0 - contains professional membership selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 1 - contains therapist interest selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 2 - contains therapist interest selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 3 - contains therapy reasons selection-->
+                                    <RowDefinition Height="Auto" />  <!--Row 4 - Therapist name input-->
+                                    
+                                </Grid.RowDefinitions>
+
+                                <!--Row 0 - contains professional membership selection-->
+                                <Label Grid.Row="0" Grid.Column="0"  Text="Please select your professional membership type." />
+                                <Picker Grid.Row="0" Grid.Column="1" x:Name="MembershipPicker" Title="Memberships" BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Chartered Psychologist (CPsychol)</x:String>
+                                            <x:String>Registered Member MBACP (Accred)</x:String>
+                                            <x:String>Registered Member MBACP (Snr Accred)</x:String>
+                                            <x:String>Registered Member NCS (MNCS Prof Accred)</x:String>
+                                            <x:String>Registered Member NCS (MNCS Snr Accred)</x:String>
+                                            <x:String>Fellow Registrant NCS (FNCS)</x:String>
+                                            <x:String>Other</x:String>
+                                            </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 1 - contains therapist interest selection-->
+                                <Label Grid.Row="1" Grid.Column="0"  Text="What makes you interested in MySerenity?" />
+                                <Picker Grid.Row="1" Grid.Column="1" x:Name="TherapistInterestPicker" Title="Reasons" BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>To build my own private practice</x:String>
+                                            <x:String>To supplement my private income</x:String>
+                                            <x:String>To supplement my full time job</x:String>
+                                            <x:String>To supplement my part time job</x:String>
+                                            <x:String>Other</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 2 - contains therapist time commitment selection-->
+                                <Label Grid.Row="2" Grid.Column="0"  Text="How much time do you intend to spend with MySerenity clients?" />
+                                <Picker Grid.Row="2" Grid.Column="1" x:Name="TherapistTimePicker" Title="Time" BackgroundColor="White">
+                                    <Picker.ItemsSource>
+                                        <x:Array Type="{x:Type x:String}">
+                                                <x:String>0 - 5 hours a week</x:String>
+                                                <x:String>5 - 10 hours a week</x:String>
+                                                <x:String>10 - 20 hours a week</x:String>
+                                                <x:String>30+ hours a week</x:String>
+                                                <x:String>Not sure</x:String>
+                                        </x:Array>
+                                    </Picker.ItemsSource>
+                                </Picker>
+
+                                <!--Row 3 - contains therapist awareness question selection-->
+                                <Label Grid.Row="3" Grid.Column="0"  Text="How did you hear about MySerenity?" />
+                                <Picker Grid.Row="3" Grid.Column="1" x:Name="TherapistAwarenessPicker" Title="Method" BackgroundColor="White">
+
+                                    <Picker.ItemsSource>
+
+                                        <x:Array Type="{x:Type x:String}">
+                                            <x:String>Podcast</x:String>
+                                                <x:String>Email Outreach</x:String>
+                                                <x:String>Internet search</x:String>
+                                                <x:String>Mail</x:String>
+                                                <x:String>Other</x:String>
+                                        </x:Array>
+
+                                    </Picker.ItemsSource>
+
+                                </Picker>
+
+
+                                <!--Row 4 - Therapist name input-->
+                                <Label Grid.Row="4" Grid.Column="0"  Text="And finally, what is your name?" />
+                                <Entry Grid.Row="4" Grid.Column="1" Placeholder="Full name" x:Name="TherapistNameEntry"/>
+
+                                </Grid>
                         </Frame>
 
                         <!--Frame containing create account button and homepage navigation-->
@@ -310,5 +431,6 @@
                 </Frame>
             </StackLayout>
         </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

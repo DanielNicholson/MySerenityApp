@@ -17,7 +17,7 @@ namespace MySerenity.Droid.Dependencies
 {
     class AuthAndroid : IAuth
     {
-        public string GetCurrentUserID()
+        public string GetCurrentUserId()
         {
             return Firebase.Auth.FirebaseAuth.Instance.CurrentUser.Uid;
         }
@@ -46,10 +46,13 @@ namespace MySerenity.Droid.Dependencies
             {
                 throw new Exception(ex.Message);
             }
+            catch (FirebaseAuthInvalidUserException ex)
+            {
+                throw new Exception("We couldn't find an account matching that email address, please try signing up or contacting support.");
+            }
             catch (Exception e)
             {
                 throw new Exception(e.Message);
-
             }
         }
 

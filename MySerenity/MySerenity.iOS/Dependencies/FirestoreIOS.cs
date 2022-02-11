@@ -11,10 +11,10 @@ using WebKit;
 using Auth = Firebase.Auth.Auth;
 using Firestore = Firebase.CloudFirestore.Firestore;
 
-[assembly: Xamarin.Forms.Dependency(typeof(MySerenity.iOS.Dependencies.FirestoreIOS))]
+[assembly: Xamarin.Forms.Dependency(typeof(MySerenity.iOS.Dependencies.FirestoreIos))]
 namespace MySerenity.iOS.Dependencies
 {
-    class FirestoreIOS : IFirestore
+    class FirestoreIos : IFirestore
     {
 
         // saves journal entry to firestore
@@ -68,7 +68,7 @@ namespace MySerenity.iOS.Dependencies
 
                 var collection = Firestore.SharedInstance.GetCollection("JournalEntries");
                 // delete the given entry by ID
-                await collection.GetDocument(entry.ID).DeleteDocumentAsync();
+                await collection.GetDocument(entry.Id).DeleteDocumentAsync();
 
                 // return true if no errors happen
                 return true;
@@ -112,7 +112,7 @@ namespace MySerenity.iOS.Dependencies
                 var collection = Firestore.SharedInstance.GetCollection("JournalEntries");
 
                 // update the entry in firestore by ID - stores the Dictionary against the entry ID in firestore.
-                await collection.GetDocument(entry.ID).UpdateDataAsync(doc);
+                await collection.GetDocument(entry.Id).UpdateDataAsync(doc);
 
                 // return true if no errors occur and update is successful
                 return true;
@@ -149,12 +149,12 @@ namespace MySerenity.iOS.Dependencies
                     // build up the journal entry from the information.
                     var newJournal = new JournalEntry()
                     {
-                        UserID = dictionary.ValueForKey(new NSString("userID")) as NSString,
+                        UserId = dictionary.ValueForKey(new NSString("userID")) as NSString,
                         JournalEntryTitle = dictionary.ValueForKey(new NSString("journalEntryTitle")) as NSString,
                         JournalEntryText = dictionary.ValueForKey(new NSString("journalEntryText")) as NSString,
                         JournalEntryMoodData = Int32.Parse(dictionary.ValueForKey(new NSString("journalEntryMoodData")) as NSString),
                         JournalEntryEntryTime = dictionary.ValueForKey(new NSString("journalEntryEntryTime")) as NSString,
-                        ID = document.Id
+                        Id = document.Id
                     };
 
                     // add to the list 
@@ -179,6 +179,16 @@ namespace MySerenity.iOS.Dependencies
         }
 
         public bool SaveSignUpQuestions(Clientquestionnaire questions)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ClientLookingForTherapist(ClientTherapistRelationship relation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool SaveTherapistInfo(TherapistInfo info)
         {
             throw new NotImplementedException();
         }

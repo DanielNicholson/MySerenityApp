@@ -29,8 +29,9 @@ namespace MySerenity.Pages
             
             // When the journal entry view appears, refresh the list from firestore
             var journalEntries = await Firestore.ReadAllJournalEntriesForUser();
+            journalEntries.Sort(new Comparison<JournalEntry>((y, x) => DateTime.Compare(DateTime.Parse(x.JournalEntryEntryTime), DateTime.Parse(y.JournalEntryEntryTime))));
             JournalListView.ItemsSource = null;                 // clear the list to ensure latest version is shown.
-            JournalListView.ItemsSource = journalEntries;       // update list.
+            JournalListView.ItemsSource = journalEntries; // update list.
         }
 
         // Brings up new journal page/

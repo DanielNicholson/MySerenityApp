@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,24 @@ namespace MySerenity.Pages
                 bool result = await Auth.LoginUser(EmailEntry.Text, PasswordEntry.Text);
                 
                 // if user has been authenticated, allow user to login. Firebase stores userID if they are authenticated to use against all actions done in app.
-                if (result) await Navigation.PushAsync(new HomePage());
+                if (result && Auth.IsUserAuthenticated())
+                {
+                    // get user role
+                    string userRole = await Firestore.GetUserRole();
+
+                    if (userRole == "Client")
+                    {
+                        await Navigation.PushAsync(new HomePage());
+                    }
+                    else if (userRole == "Therapist")
+                    {
+                        await Navigation.PushAsync(new TherapistDashboard());
+                    }
+                    else
+                    {
+                        await App.Current.MainPage.DisplayAlert("Error", "Error occurred - please contact support.", "Ok");
+                    }
+                }
             }
         }
 

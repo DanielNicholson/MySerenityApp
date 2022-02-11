@@ -9,12 +9,12 @@ using System.Threading.Tasks;
 using UIKit;
 using Xamarin.Forms;
 
-[assembly: Xamarin.Forms.Dependency(typeof(MySerenity.iOS.Dependencies.AuthIOS))]
+[assembly: Xamarin.Forms.Dependency(typeof(MySerenity.iOS.Dependencies.AuthIos))]
 namespace MySerenity.iOS.Dependencies
 {
-    public class AuthIOS : IAuth
+    public class AuthIos : IAuth
     {
-        public string GetCurrentUserID()
+        public string GetCurrentUserId()
         {
             return Firebase.Auth.Auth.DefaultInstance.CurrentUser.Uid;
         }
