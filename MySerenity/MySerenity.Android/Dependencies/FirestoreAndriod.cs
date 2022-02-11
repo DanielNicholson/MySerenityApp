@@ -276,43 +276,29 @@ namespace MySerenity.Droid.Dependencies
         public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
         {
             // get collection of all journal entries where the current authenticated userID matches the userID of the document.
-            var collection = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid).Get();
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
+            
+            // clear list of current journal entries to avoid duplication
+            _entries.Clear();
 
-            // delay to allow the connection to load the entries.
-            Thread.Sleep(500);
-
-            // if the query was successful - Parse data into JournalEntry items.
-            if (collection.IsSuccessful)
+            // loop through all documents in query
+            foreach (var entry in collectionSnapshot.Documents)
             {
-                // cast results into a Snapshot to loop through the data.
-                var journalEntries = (QuerySnapshot)collection.Result;
-
-                // clear list of current journal entries to avoid duplication
-                _entries.Clear();
-
-                // loop through all documents in query
-                foreach (var entry in journalEntries.Documents)
+                // create a new Journal Entry and fill in all values in document
+                var newJournal = new JournalEntry()
                 {
-                    // create a new Journal Entry and fill in all values in document
-                    var newJournal = new JournalEntry()
-                    {
-                        UserId = entry.Get("userID").ToString(),
-                        JournalEntryTitle = entry.Get("journalEntryTitle").ToString(),
-                        JournalEntryText = entry.Get("journalEntryText").ToString(),
-                        JournalEntryMoodData = Int32.Parse(entry.Get("journalEntryMoodData").ToString()),
-                        JournalEntryEntryTime = entry.Get("journalEntryEntryTime").ToString(),
-                        Id = entry.Id
-                    };
+                    UserId = entry.Get("userID").ToString(),
+                    JournalEntryTitle = entry.Get("journalEntryTitle").ToString(),
+                    JournalEntryText = entry.Get("journalEntryText").ToString(),
+                    JournalEntryMoodData = Int32.Parse(entry.Get("journalEntryMoodData").ToString()),
+                    JournalEntryEntryTime = entry.Get("journalEntryEntryTime").ToString(),
+                    Id = entry.Id
+                };
 
-                    // add the entry to list and reverse to show in correct order
-                    _entries.Add(newJournal);
+                // add the entry to list and reverse to show in correct order
+                _entries.Add(newJournal);
 
-                }
-            }
-            else
-            {
-                // query failed, clear list so user doesn't see anything
-                _entries.Clear();
             }
 
             _entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
