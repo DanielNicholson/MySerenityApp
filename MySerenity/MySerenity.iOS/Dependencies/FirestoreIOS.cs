@@ -192,5 +192,15 @@ namespace MySerenity.iOS.Dependencies
         {
             throw new NotImplementedException();
         }
+
+        public Task<string> GetUserRole()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Clientquestionnaire>> ReadAllAvailableClients()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

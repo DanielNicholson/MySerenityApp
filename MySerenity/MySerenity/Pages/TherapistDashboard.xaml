@@ -1,12 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MySerenity.Pages.TherapistDashboard">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to the Therapist Dash"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:MySerenity.Pages;assembly=MySerenity"
+            x:Class="MySerenity.Pages.TherapistDashboard">
+
+    <local:TherapistClientListPage Title="Client List"></local:TherapistClientListPage>
+
+
+</TabbedPage>

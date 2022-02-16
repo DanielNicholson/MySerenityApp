@@ -27,12 +27,11 @@ namespace MySerenity.Droid.Dependencies
 {
     public class FirestoreAndriod : IFirestore
     {
-        // used to return when retrieving all entries from the firestore
-        private List<JournalEntry> _entries;
+
 
         public FirestoreAndriod()
         {
-            _entries = new List<JournalEntry>();
+
         }
 
         // saves a journal entry to firestore
@@ -76,7 +75,7 @@ namespace MySerenity.Droid.Dependencies
                 var collection = FirebaseFirestore.Instance.Collection("JournalEntries");
 
                 // delete entry by ID
-                collection.Document(entry.Id).Delete();
+                await collection.Document(entry.Id).Delete();
 
                 // no errors - return true
                 return true;
@@ -109,7 +108,7 @@ namespace MySerenity.Droid.Dependencies
                 var collection = FirebaseFirestore.Instance.Collection("JournalEntries");
 
                 // update the document by ID with the dictionary of values
-                collection.Document(entry.Id).Update(journalEntry);
+                await collection.Document(entry.Id).Update(journalEntry);
 
                 // return true if no errors
                 return true;
@@ -160,6 +159,7 @@ namespace MySerenity.Droid.Dependencies
                 // create the dictionary to store in firestore
                 var questionsDictionary = new Dictionary<string, Object>
                 {
+                    {"ClientName", questions.ClientName},
                     {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
                     {"Gender", questions.Gender},
                     {"Age", questions.Age},
@@ -260,6 +260,7 @@ namespace MySerenity.Droid.Dependencies
             Query collectionQuery = FirebaseFirestore.Instance.Collection("UserRole").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
             QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
 
+            // should only ever be one item returned.
             if (collectionSnapshot.Size() == 1)
             {
                 foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
@@ -269,7 +270,153 @@ namespace MySerenity.Droid.Dependencies
 
                 return role;
             }
+
             throw new Exception("User Role Not Found");
+        }
+
+        public async Task<List<Clientquestionnaire>> ReadAllAvailableClients()
+        {
+            // get collection of all clients who haven't been matches with a therapist.
+            Query unapprovedClients = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("IsApproved", false);
+            QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await unapprovedClients.Get();
+
+            // loop through the list and add all userIDs to a list.
+            IList<Object> list = new List<Object>();
+            foreach (var entry in unapprovedClientsSnapshot.Documents)
+            {
+                list.Add(entry.Get("userID").ToString());
+            }
+
+            List<Clientquestionnaire> clientDetails = new List<Clientquestionnaire>();
+
+            if (list.Count != 0) 
+            {
+                // get all client sign up questionnaires of clients who haven't been matched with a therapist.
+                FieldPath path = FieldPath.Of("userID");
+                Query unapprovedClientDetails = FirebaseFirestore.Instance.Collection("Clientquestionnaire").WhereIn(path, list);
+                QuerySnapshot unapprovedClientDetailsSnapshot = (QuerySnapshot)await unapprovedClientDetails.Get();
+
+            
+
+                foreach (var entry in unapprovedClientDetailsSnapshot.Documents)
+                {
+                    // create a newClientquestionnaire and fill in all values in document
+                    var newQuestions = new Clientquestionnaire()
+                    {
+                        UserId = entry.Get("userID").ToString(),
+                        ClientName = entry.Get("ClientName").ToString(),
+                        Gender = entry.Get("Gender").ToString(),
+                        Age = (int)entry.Get("Age"),
+                        PreviousTherapyExperience = entry.Get("PreviousTherapyExperience").ToString(),
+                        ReasonsForTherapy = entry.Get("ReasonsForTherapy").ToString(),
+                        LowInterestLevels = entry.Get("LowInterestLevels").ToString(),
+                        LowEnergyLevels = entry.Get("LowEnergyLevels").ToString(),
+                        LowMoodLevels = entry.Get("LowMoodLevels").ToString(),
+                        SuicidalThoughts = entry.Get("SuicidalThoughts").ToString(),
+                        CurrentMedication = entry.Get("CurrentMedication").ToString(),
+                        TherapistPreferences = entry.Get("TherapistPreferences").ToString(),
+                        EmergencyContactName = entry.Get("EmergencyContactName").ToString(),
+                        EmergencyContactNumber = entry.Get("EmergencyContactNumber").ToString(),
+                        Id = entry.Id
+                    };
+
+                    // add the question to the return list.
+                    clientDetails.Add(newQuestions);
+
+                }
+            }
+
+            return clientDetails;
+        }
+
+
+        // returns all clients that are matched with the current authenticated therapist.
+        public async Task<List<Clientquestionnaire>> ReadAllClientsForTherapist()
+        {
+            // get collection of all clients who haven't been matches with a therapist.
+            Query unapprovedClients = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("TherapistID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await unapprovedClients.Get();
+
+            // loop through the list and add all userIDs to a list.
+            IList<Object> list = new List<Object>();
+            foreach (var entry in unapprovedClientsSnapshot.Documents)
+            {
+                list.Add(entry.Get("userID").ToString());
+            }
+
+            List<Clientquestionnaire> clientDetails = new List<Clientquestionnaire>();
+            if (list.Count > 0)
+            {
+                // get all client sign up questionnaires of clients.
+                FieldPath path = FieldPath.Of("userID");
+                Query unapprovedClientDetails = FirebaseFirestore.Instance.Collection("Clientquestionnaire").WhereIn(path, list);
+                QuerySnapshot unapprovedClientDetailsSnapshot = (QuerySnapshot)await unapprovedClientDetails.Get();
+
+                foreach (var entry in unapprovedClientDetailsSnapshot.Documents)
+                {
+                    // create a new Clientquestionnaire and fill in all values in document
+                    var newQuestions = new Clientquestionnaire()
+                    {
+                        UserId = entry.Get("userID").ToString(),
+                        ClientName = entry.Get("ClientName").ToString(),
+                        Gender = entry.Get("Gender").ToString(),
+                        Age = (int)entry.Get("Age"),
+                        PreviousTherapyExperience = entry.Get("PreviousTherapyExperience").ToString(),
+                        ReasonsForTherapy = entry.Get("ReasonsForTherapy").ToString(),
+                        LowInterestLevels = entry.Get("LowInterestLevels").ToString(),
+                        LowEnergyLevels = entry.Get("LowEnergyLevels").ToString(),
+                        LowMoodLevels = entry.Get("LowMoodLevels").ToString(),
+                        SuicidalThoughts = entry.Get("SuicidalThoughts").ToString(),
+                        CurrentMedication = entry.Get("CurrentMedication").ToString(),
+                        TherapistPreferences = entry.Get("TherapistPreferences").ToString(),
+                        EmergencyContactName = entry.Get("EmergencyContactName").ToString(),
+                        EmergencyContactNumber = entry.Get("EmergencyContactNumber").ToString(),
+                        Id = entry.Id
+                    };
+
+                    // add the question to the return list.
+                    clientDetails.Add(newQuestions);
+
+                }
+            }
+            return clientDetails;
+        }
+
+        public async Task<bool> MatchTherapistWithClient(Clientquestionnaire entry) 
+        {
+            // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
+                var clientTherapistRelationship = new Dictionary<string, Object>
+                {
+                    {"userID", entry.UserId},
+                    {"IsApproved", true},
+                    {"TherapistID", FirebaseAuth.Instance.CurrentUser.Uid}
+                };
+
+                // get the collection of Clientquestionnaires
+                var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
+
+                // get record of client who matches the userID
+                Query unapprovedClients = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", entry.UserId);
+                QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot) await unapprovedClients.Get();
+
+                if (unapprovedClientsSnapshot.Size() == 1)
+                {
+                    // update the document by ID with the dictionary of values
+                    await collection.Document(unapprovedClientsSnapshot.Documents.First().Id).Update(clientTherapistRelationship);
+
+                    // return true if no errors
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                // error has occured - return false
+                return false;
+            }
         }
 
 
@@ -279,8 +426,7 @@ namespace MySerenity.Droid.Dependencies
             Query collectionQuery = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
             QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
             
-            // clear list of current journal entries to avoid duplication
-            _entries.Clear();
+            var entries = new List<JournalEntry>();
 
             // loop through all documents in query
             foreach (var entry in collectionSnapshot.Documents)
@@ -297,12 +443,14 @@ namespace MySerenity.Droid.Dependencies
                 };
 
                 // add the entry to list and reverse to show in correct order
-                _entries.Add(newJournal);
+                entries.Add(newJournal);
 
             }
 
-            _entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
-            return _entries;
+            entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
+            return entries;
         }
+
+
     }
 }

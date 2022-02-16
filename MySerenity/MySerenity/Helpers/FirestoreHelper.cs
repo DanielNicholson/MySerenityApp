@@ -12,16 +12,18 @@ namespace MySerenity.Helpers
     // interface to be implemented on both iOS and Android - used as each platform has specific code for firestore. 
     public interface IFirestore
     {
-        bool SaveJournalEntry(JournalEntry entry);                      // saves journal entry to firestore
-        Task<bool> DeleteJournalEntry(JournalEntry entry);              // delete selected entry from firestore
-        Task<bool> UpdateJournalEntry(JournalEntry entry);              // Update selected entry in firestore
-        Task<List<JournalEntry>> ReadAllJournalEntriesForUser();        // retrieve list of all entries for current authenticated user from firestore
-        bool SaveUserRole(bool isClient);                               // saves the user role to firestore upon account creation
-        bool SaveSignUpQuestions(Clientquestionnaire questions);        // saves journal entry to firestore
+        bool SaveJournalEntry(JournalEntry entry);                             // saves journal entry to firestore
+        Task<bool> DeleteJournalEntry(JournalEntry entry);                     // delete selected entry from firestore
+        Task<bool> UpdateJournalEntry(JournalEntry entry);                     // Update selected entry in firestore
+        Task<List<JournalEntry>> ReadAllJournalEntriesForUser();               // retrieve list of all entries for current authenticated user from firestore
+        bool SaveUserRole(bool isClient);                                      // saves the user role to firestore upon account creation
+        bool SaveSignUpQuestions(Clientquestionnaire questions);               // saves journal entry to firestore
         bool ClientLookingForTherapist(ClientTherapistRelationship relation);  // saves journal entry to firestore
-        bool SaveTherapistInfo(TherapistInfo info);
-        Task<string> GetUserRole();
-
+        bool SaveTherapistInfo(TherapistInfo info);                            // Save the therapist signup info to firestor
+        Task<string> GetUserRole();                                            // retrieves the user role from firestore for current authenticated user
+        Task<List<Clientquestionnaire>> ReadAllAvailableClients();             // gets a list of all unpaired clients to populate available client list
+        Task<List<Clientquestionnaire>> ReadAllClientsForTherapist();          // gets a list of all clients paired with current therapist
+        Task<bool> MatchTherapistWithClient(Clientquestionnaire entry);                     // Update selected entry in firestore
     }
 
     public class Firestore
@@ -76,6 +78,21 @@ namespace MySerenity.Helpers
         public static Task<string> GetUserRole()
         {
             return _firestore.GetUserRole();
+        }
+
+        public static Task<List<Clientquestionnaire>> ReadAllAvailableClients()
+        {
+            return _firestore.ReadAllAvailableClients();
+        }
+
+        public static Task<List<Clientquestionnaire>> ReadAllClientsForTherapist()
+        {
+            return _firestore.ReadAllClientsForTherapist();
+        }
+
+        public static Task<bool> MatchTherapistWithClient(Clientquestionnaire entry)
+        {
+            return _firestore.MatchTherapistWithClient(entry);
         }
     }
 

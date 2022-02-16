@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MySerenity.Pages.NewClientInfoPage">
+    <ContentPage.Content>
+        <StackLayout>
+
+            <ScrollView VerticalOptions="StartAndExpand">
+                
+                
+                <!--Frame containing questions and answers from when client signed up -->
+                    <Frame x:Name="ClientQuestionsAndAnswers"
+                                       VerticalOptions="StartAndExpand" 
+                                       BackgroundColor="{StaticResource MainBlueColor}" 
+                                       HasShadow="False"
+                                       IsVisible="True">
+
+                        
+                       
+                        <Grid RowSpacing="15">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" /><!--Row 0 - contains name input-->
+                                <RowDefinition Height="Auto" /><!--Row 0 - contains gender selection-->
+                                <RowDefinition Height="Auto" /><!--Row 1 - contains age selection-->
+                                <RowDefinition Height="Auto" /><!--Row 2 - contains previous therapy question selection-->
+                                <RowDefinition Height="Auto" /><!--Row 3 - contains therapy reasons selection-->
+                                <RowDefinition Height="Auto" /><!--Row 4 - contains Interest Level Picker selection-->
+                                <RowDefinition Height="Auto" /><!--Row 5 - contains Energy Level Picker selection-->
+                                <RowDefinition Height="Auto" /><!--Row 6 - contains Depression Level Picker selection-->
+                                <RowDefinition Height="Auto" /><!--Row 7 - contains Suicide risk Picker selection-->
+                                <RowDefinition Height="Auto" /><!--Row 8 - contains Medication Picker selection-->
+                                <RowDefinition Height="Auto" /><!--Row 9 - contains therapy reasons selection-->
+                            </Grid.RowDefinitions>
+
+                            <!--Row 0 - Contact number input-->
+                            <Label Grid.Row="0" Grid.Column="0"  Text="What is your full name?" VerticalOptions="CenterAndExpand" MaxLines="3"/>
+                            <Label Grid.Row="0" Grid.Column="1"  x:Name="ClientNameEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 1 - contains gender info-->
+                            <Label Grid.Row="1" Grid.Column="0"  Text="What is your gender?" MaxLines="3" />
+                            <Label Grid.Row="1" Grid.Column="1"  x:Name="ClientGenderEntry" TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 2 - contains age info-->
+                            <Label Grid.Row="2" Grid.Column="0" Text="How old are you?" MaxLines="3"/>
+                            <Label Grid.Row="2" Grid.Column="1"  x:Name="ClientAgeEntry" TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 3 - contains previous therapy experience-->
+                            <Label Grid.Row="3" Grid.Column="0" Text="Have you ever been to therapy before?" MaxLines="3"/>
+                            <Label Grid.Row="3" Grid.Column="1"  x:Name="ClientTherapyEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 4 - contains therapy reasons selection-->
+                            <Label Grid.Row="4" Grid.Column="0" Text="Why are you considering therapy today?" MaxLines="3"/>
+                            <Label Grid.Row="4" Grid.Column="1"  x:Name="ClientReasonsEntry" TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 5 - contains Interest Level Picker selection-->
+                            <Label Grid.Row="5" Grid.Column="0"  Text="How often have you had little interest in doing things?" MaxLines="3"/>
+                            <Label Grid.Row="5" Grid.Column="1"  x:Name="ClientInterestEntry"  TextColor="{StaticResource TextColor}" />
+
+                            <!--Row 6 - contains Energy Level Picker selection-->
+                            <Label Grid.Row="6" Grid.Column="0"  Text="How often have you felt tired or had little energy?" MaxLines="3"/>
+                            <Label Grid.Row="6" Grid.Column="1"  x:Name="ClientEnergyEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 7 - contains Depression Level Picker selection-->
+                            <Label Grid.Row="7" Grid.Column="0"  Text="Over the last few weeks, how often have you felt bad about yourself?" MaxLines="3"/>
+                            <Label Grid.Row="7" Grid.Column="1"  x:Name="ClientDepressionEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 8 - contains Suicide risk Picker selection-->
+                            <Label Grid.Row="8" Grid.Column="0"  Text="When was the last time you thought about suicide?" MaxLines="3"/>
+                            <Label Grid.Row="8" Grid.Column="1" x:Name="ClientSuicideEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 9 - contains Medication Picker selection-->
+                            <Label Grid.Row="9" Grid.Column="0"  Text="Are you currently taking medication?" MaxLines="3"/>
+                            <Label Grid.Row="9" Grid.Column="1"  x:Name="ClientMedicationEntry"  TextColor="{StaticResource TextColor}"/>
+
+                            <!--Row 10 - contains Therapist preference selection-->
+                            <Label Grid.Row="10" Grid.Column="0" Text="Do you have any preferences for a therapist?" MaxLines="5"/>
+                            <Label Grid.Row="10" Grid.Column="1"  x:Name="ClientTherapistEntry"  TextColor="{StaticResource TextColor}"/>
+
+                        </Grid>
+                    </Frame>
+                    
+            </ScrollView>
+
+            <Frame BackgroundColor="{StaticResource MainBlueColor}">
+                <Button Clicked="Pair_with_client" 
+                        Text="Accept Client"
+                        FontAttributes="Bold" 
+                        FontSize="Large" 
+                        HorizontalOptions="FillAndExpand" />
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

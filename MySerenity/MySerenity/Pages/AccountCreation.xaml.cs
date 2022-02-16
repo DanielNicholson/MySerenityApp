@@ -102,11 +102,16 @@ namespace MySerenity.Pages
                     {
                         therapistPreferences += "Therapist of colour, ";
                     }
+                    if (NoPreferenceBox.IsChecked)
+                    {
+                        therapistPreferences += "No preferences, ";
+                    }
 
-                    
+
 
                     Clientquestionnaire signup = new Clientquestionnaire()
                     {
+                        ClientName = ClientNameEntry.Text,
                         Gender = GenderPicker.SelectedItem.ToString(),
                         Age = int.Parse(AgePicker.SelectedItem.ToString()),
                         PreviousTherapyExperience = TherapyExperiencePicker.SelectedItem.ToString(),
@@ -139,6 +144,7 @@ namespace MySerenity.Pages
                     };
 
                     Firestore.SaveTherapistInfo(signupInfo);
+                    await Navigation.PushAsync(new TherapistDashboard());
                 }
             }
         }

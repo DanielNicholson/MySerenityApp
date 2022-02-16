@@ -10,6 +10,8 @@ namespace MySerenity.Model
 
         public string UserId { get; set; } // userID of who filled out the questionaire
 
+        public string ClientName { get; set; }
+
         public string Gender { get; set; }
 
         public int Age { get; set; }
