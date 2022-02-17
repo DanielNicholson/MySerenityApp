@@ -261,7 +261,11 @@ namespace MySerenity.Droid.Dependencies
             QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
 
             // should only ever be one item returned.
-            if (collectionSnapshot.Size() == 1)
+            if (collectionSnapshot.Size() != 1)
+            {
+                throw new Exception("Multiple User Role's found, please contact support");
+            }
+            else
             {
                 foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
                 {

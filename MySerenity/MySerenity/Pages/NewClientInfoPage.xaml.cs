@@ -39,7 +39,7 @@ namespace MySerenity.Pages
 
         private async void Pair_with_client(object sender, EventArgs e)
         {
-            Firestore.MatchTherapistWithClient(clientDetails);
+            await Firestore.MatchTherapistWithClient(clientDetails);
             await Navigation.PopAsync();
         }
     }
