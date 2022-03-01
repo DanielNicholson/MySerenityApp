@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Microcharts;
 using MySerenity.Model;
 using Xamarin.Forms;
 
@@ -23,7 +24,11 @@ namespace MySerenity.Helpers
         Task<string> GetUserRole();                                            // retrieves the user role from firestore for current authenticated user
         Task<List<Clientquestionnaire>> ReadAllAvailableClients();             // gets a list of all unpaired clients to populate available client list
         Task<List<Clientquestionnaire>> ReadAllClientsForTherapist();          // gets a list of all clients paired with current therapist
-        Task<bool> MatchTherapistWithClient(Clientquestionnaire entry);                     // Update selected entry in firestore
+        Task<bool> MatchTherapistWithClient(Clientquestionnaire entry);        // Update selected entry in firestore
+        bool SendMessage(Message message);                                     // Saves user's message to firestore
+        Task<List<Message>> RetrieveConversation(string recieverID);           // Retrieves conversation from firestore
+        Task<List<ChartEntry>> RetrieveMoodData();                             // Retrieves mood entry data from firestore to display on homepage graph
+
     }
 
     public class Firestore
@@ -93,6 +98,21 @@ namespace MySerenity.Helpers
         public static Task<bool> MatchTherapistWithClient(Clientquestionnaire entry)
         {
             return _firestore.MatchTherapistWithClient(entry);
+        }
+
+        public static bool SendMessage(Message message)
+        {
+           return _firestore.SendMessage(message);
+        }
+
+        public static Task<List<Message>> RetrieveConversation(string recieverID)
+        {
+            return _firestore.RetrieveConversation(recieverID);
+        }
+
+        public static Task<List<ChartEntry>> RetrieveMoodData()
+        {
+            return _firestore.RetrieveMoodData();
         }
     }
 

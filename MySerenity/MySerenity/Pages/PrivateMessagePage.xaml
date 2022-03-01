@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:helpers="clr-namespace:MySerenity.Helpers;assembly=MySerenity"
+             xmlns:partials="clr-namespace:MySerenity.Views.Partials;assembly=MySerenity"
+             x:Class="MySerenity.Pages.PrivateMessagePage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <helpers:ChatTemplateSelector x:Key="MessageTemplateSelector"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <Grid RowSpacing="0" 
+              ColumnSpacing="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="1" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView   x:Name="MessageListView"
+                        Grid.Row="0" 
+                        ItemTemplate="{StaticResource MessageTemplateSelector}"
+                        Margin="0" 
+                        HasUnevenRows="True" 
+                        VerticalOptions="FillAndExpand" 
+                        SeparatorColor="Transparent"
+                        BackgroundColor="{StaticResource MainBlueColor}"
+            >
+                <ListView.ItemsSource>
+                    <Binding Path="chatID" />
+                </ListView.ItemsSource>
+            </ListView>
+            <BoxView HorizontalOptions="FillAndExpand"
+                     HeightRequest="1"
+                     BackgroundColor="{StaticResource TextColor}"
+                     Grid.Row="1"/>
+            <partials:ChatInputBarView Grid.Row="2"
+                                       Margin="0,0,10,0"/>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

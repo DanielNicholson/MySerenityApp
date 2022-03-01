@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MySerenity.Views.OutgoingViewCell">
+
+
+    <Grid RowSpacing="0" 
+          ColumnSpacing="0"
+          
+          BackgroundColor="White"
+          Padding="10"
+          Margin="80,10,10,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+
+
+
+
+            <Label Text="{Binding MessageText}"
+                   TextColor="{StaticResource TextColor}"
+                   Grid.Row="0"
+                   FontSize="Large"/>
+
+            <Label Text="{Binding MessageSentTime}"
+            TextColor="{StaticResource TextColor}"
+            Grid.Row="1"
+            FontSize="Small"/>
+
+
+    </Grid>
+
+   
+</ViewCell>

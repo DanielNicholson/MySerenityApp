@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,9 +30,12 @@ namespace MySerenity.Pages
             
             // When the journal entry view appears, refresh the list from firestore
             var journalEntries = await Firestore.ReadAllJournalEntriesForUser();
-            journalEntries.Sort((y, x) => DateTime.Compare(DateTime.Parse(x.JournalEntryEntryTime), DateTime.Parse(y.JournalEntryEntryTime)));
+
+
+            var sortedEntries = journalEntries.OrderByDescending(o => DateTime.Parse(o.JournalEntryEntryTime, new CultureInfo("en-GB"))).ToList();
+
             JournalListView.ItemsSource = null;                 // clear the list to ensure latest version is shown.
-            JournalListView.ItemsSource = journalEntries; // update list.
+            JournalListView.ItemsSource = sortedEntries;        // update list.
         }
 
         // Brings up new journal page/

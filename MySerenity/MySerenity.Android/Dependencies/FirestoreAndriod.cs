@@ -13,13 +13,28 @@ using System.Threading;
 using System.Threading.Tasks;
 using Android.Gms.Extensions;
 using Android.Gms.Tasks;
+using Android.Util;
 using Firebase.Auth;
 using Firebase.Firestore;
+using Google.Apis.Util;
+using Google.Cloud.Firestore;
 using Java.Interop;
+using Java.Lang;
 using Java.Util;
+using Microcharts;
 using MySerenity.Helpers;
 using MySerenity.Model;
+using SkiaSharp;
+using Xamarin.Forms;
+using Xamarin.Io.OpenCensus.Metrics.Export;
+using CollectionReference = Firebase.Firestore.CollectionReference;
+using DocumentSnapshot = Firebase.Firestore.DocumentSnapshot;
+using Exception = System.Exception;
+using FieldPath = Firebase.Firestore.FieldPath;
+using Message = MySerenity.Model.Message;
 using Object = Java.Lang.Object;
+using Query = Firebase.Firestore.Query;
+using QuerySnapshot = Firebase.Firestore.QuerySnapshot;
 using Task = Android.Gms.Tasks.Task;
 
 [assembly: Xamarin.Forms.Dependency(typeof(MySerenity.Droid.Dependencies.FirestoreAndriod))]
@@ -421,6 +436,113 @@ namespace MySerenity.Droid.Dependencies
                 // error has occured - return false
                 return false;
             }
+        }
+
+        public bool SendMessage(Message message)
+        {
+            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create the dictionary to store in firestore
+                var journalEntry = new Dictionary<string, Object>
+                {
+                    {"SenderId", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"ReceiverId", message.ReceiverId},
+                    {"MessageText", message.MessageText},
+                    {"MessageSentTime", message.MessageSentTime.ToString()}
+                };
+
+                // make a reference to the firestore collection
+                var collection = FirebaseFirestore.Instance.Collection("Message");
+
+                // add the new journal
+                collection.Add(new HashMap(journalEntry));
+
+                // no errors - return true
+                return true;
+            }
+            catch (Exception e)
+            {
+                // errors - return false
+                return false;
+            }
+        }
+
+        public async Task<List<Message>> RetrieveConversation(string recieverID)
+        {
+            var entries = new List<Message>();
+
+            // get collection of all message entries where the current authenticated userID matches senderID.
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("Message").WhereEqualTo("SenderId", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot) await collectionQuery.Get();
+
+
+            // loop through all documents in query
+            foreach (var entry in collectionSnapshot.Documents)
+            {
+                // skip document if receiver isn't in conversation
+                if (entry.Get("ReceiverId").ToString() != recieverID) continue;
+
+                // create a new message and fill in all values in document
+                var newMessage = new Message()
+                {
+                    SenderId = entry.Get("SenderId").ToString(),
+                    ReceiverId = entry.Get("ReceiverId").ToString(),
+                    MessageText = entry.Get("MessageText").ToString(),
+                    MessageSentTime = entry.Get("MessageSentTime").ToString(),
+                };
+
+                // add the entry to list 
+                entries.Add(newMessage);
+
+            }
+            
+
+            // get collection of all message entries where the current authenticated userID matches senderID.
+            Query collectionQueryTwo = FirebaseFirestore.Instance.Collection("Message").WhereEqualTo("ReceiverId", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshotTwo = (QuerySnapshot)await collectionQueryTwo.Get();
+
+            // loop through all documents in query
+            foreach (var entry in collectionSnapshotTwo.Documents)
+            {
+                // skip document if receiver isn't in conversation
+                if (entry.Get("SenderId").ToString() != recieverID) continue;
+
+                // create a new message and fill in all values in document
+                var newMessage = new Message()
+                {
+                    SenderId = entry.Get("SenderId").ToString(),
+                    ReceiverId = entry.Get("ReceiverId").ToString(),
+                    MessageText = entry.Get("MessageText").ToString(),
+                    MessageSentTime = entry.Get("MessageSentTime").ToString(),
+                };
+
+                // add the message to list and 
+                entries.Add(newMessage);
+            }
+
+            return entries;
+        }
+
+        public async Task<List<ChartEntry>> RetrieveMoodData()
+        {
+            List<ChartEntry> moodEntries = new List<ChartEntry>();
+
+            var journalEntries = await Helpers.Firestore.ReadAllJournalEntriesForUser();
+
+            foreach (var journalEntry in journalEntries)
+            {
+                var chartEntry = new ChartEntry(journalEntry.JournalEntryMoodData)
+                {
+                    Label = journalEntry.Id,
+                    Color = SKColor.Parse("#3498db")
+                };
+
+                moodEntries.Insert(moodEntries.Count, chartEntry);
+            }
+
+            moodEntries.Reverse();
+            return moodEntries;
         }
 
 

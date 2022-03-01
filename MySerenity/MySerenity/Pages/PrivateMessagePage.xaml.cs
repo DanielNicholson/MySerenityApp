@@ -1,0 +1,107 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
+using System.Linq;
+using System.Reactive.Subjects;
+using System.Text;
+using System.Threading.Tasks;
+using Firebase.Database.Query;
+using MySerenity.Helpers;
+using MySerenity.Model;
+using Newtonsoft.Json.Linq;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace MySerenity.Pages
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class PrivateMessagePage : ContentPage
+    {
+        public string senderID;
+
+        public static string recieverID;
+
+        public string chatID;
+
+        public static int messageCount;
+
+        public ObservableCollection<Message> chatLog { get; set; } = new ObservableCollection<Message>();
+
+        // constructor that is called when navigating from therapist account 
+        public PrivateMessagePage(Clientquestionnaire clientDetails)
+        {
+            InitializeComponent();
+            BindingContext = this;
+            senderID = Auth.GetCurrentUserId(); // therapist opened the page - will always be sender.
+            recieverID = clientDetails.UserId;  // client is the other person in chat
+            chatID = senderID + recieverID;
+
+            CreateConversation();
+
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            //When the private chat page view is shown, refresh the list from firestore
+            var conversation = await Firestore.RetrieveConversation(recieverID);
+
+            var sortedConversation = conversation.OrderBy(o => DateTime.Parse(o.MessageSentTime, new CultureInfo("en-GB"))).ToList();
+            messageCount = sortedConversation.Count;
+
+            MessageListView.ItemsSource = null;                 // clear the list to ensure latest version is shown.
+            MessageListView.ItemsSource = await GetConversation();
+
+
+            // GetConversation() breaks the app - can't parse json response I receive.
+            //chatLog = await GetConversation();
+
+            MessageListView.ItemsSource = chatLog;   // update list.
+        }
+
+        protected async void CreateConversation()
+        {
+            string userRole = await Firestore.GetUserRole();
+            string therapistID = userRole == "Therapist" ? Auth.GetCurrentUserId() : recieverID;
+            string clientID = userRole == "Client" ? Auth.GetCurrentUserId() : recieverID;
+            string chatID = therapistID + clientID;
+
+            Conversation convo = new Conversation() { therapistID = therapistID, ClientID = clientID };
+
+            await App.realTimeClient.Child("Conversation").Child(chatID).PutAsync(convo);
+        }
+
+        //protected async Task<ObservableCollection<Message>> GetConversation()
+        //{
+        //    var getItems = (await App.realTimeClient
+        //        .Child("Message")
+        //        .Child(chatID)
+        //        .OnceAsync<Message>()).Select(x => new Message()
+        //        {
+        //            SenderId = x.Object.SenderId,
+        //            ReceiverId = x.Object.ReceiverId,
+        //            MessageText = x.Object.MessageText,
+        //            MessageSentTime = x.Object.MessageSentTime
+        //        }
+        //    );
+
+        //    var convo = new ObservableCollection<Message>(getItems);
+        //    return convo;
+        //}
+
+
+        protected async Task<ObservableCollection<Message>> GetConversation()
+        {
+            var getItems = (await App.realTimeClient
+                .Child("Message")
+                .Child(chatID)
+                .OnceAsync<Message>()
+            );
+
+            //var convo = new ObservableCollection<Message>(getItems);
+            return null;
+        }
+    }
+}
