@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microcharts;
 using MySerenity.Helpers;
 using MySerenity.Model;
 using UIKit;
@@ -214,6 +215,21 @@ namespace MySerenity.iOS.Dependencies
         }
 
         public bool SendMessage(Message message)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<List<Message>> IFirestore.RetrieveConversation(string recieverID)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ChartEntry>> RetrieveMoodData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TherapistInfo> GetTherapistForClient()
         {
             throw new NotImplementedException();
         }

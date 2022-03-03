@@ -545,6 +545,52 @@ namespace MySerenity.Droid.Dependencies
             return moodEntries;
         }
 
+        public async Task<TherapistInfo> GetTherapistForClient()
+        {
+            TherapistInfo info = null;
+            string therapistID = "";
+            // get collection of all user roles where the current authenticated userID matches the userID of the document.
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
+
+            // should only ever be one item returned.
+            if (collectionSnapshot.Size() != 1)
+            {
+                throw new Exception("Error, please contact support");
+            }
+            else
+            {
+                foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
+                {
+                    therapistID = doc.Get("TherapistID").ToString();
+                }
+
+                Query collectionQueryTwo = FirebaseFirestore.Instance.Collection("TherapistInfo").WhereEqualTo("userID", therapistID);
+                QuerySnapshot collectionSnapshotTwo = (QuerySnapshot)await collectionQueryTwo.Get();
+
+                if (collectionSnapshotTwo.Size() != 1)
+                {
+                    throw new Exception("Error, please contact support");
+                }
+
+                foreach (DocumentSnapshot doc in collectionSnapshotTwo.Documents)
+                {
+                    info = new TherapistInfo()
+                    {
+                        Name = doc.Get("Name").ToString(),
+                        Membership = doc.Get("Membership").ToString(),
+                        MySerenityInterest = doc.Get("MySerenityInterest").ToString(),
+                        MySerenityTime = doc.Get("MySerenityTime").ToString(),
+                        MySerenityAwareness = doc.Get("MySerenityAwareness").ToString(),
+                        UserId = doc.Get("userID").ToString(),
+
+                    };
+                }
+            }
+
+            return info;
+        }
+
 
         public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
         {

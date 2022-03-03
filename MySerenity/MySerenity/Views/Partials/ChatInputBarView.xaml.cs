@@ -42,9 +42,7 @@ namespace MySerenity.Views.Partials
                 MessageSentTime = System.DateTime.Now.ToString(new CultureInfo("en-GB")),
             };
 
-            int nextMessage = PrivateMessagePage.messageCount++;
-
-            await App.realTimeClient.Child("Message").Child(chatID).Child(nextMessage.ToString).PutAsync(message);
+            await App.realTimeClient.Child("Message").Child(chatID).PostAsync(message);
 
             chatTextInput.Text = "";
         }
