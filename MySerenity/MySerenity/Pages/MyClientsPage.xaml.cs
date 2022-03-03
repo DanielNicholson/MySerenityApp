@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MySerenity.Helpers;
+using MySerenity.Model;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Firestore = MySerenity.Helpers.Firestore;
@@ -33,7 +34,10 @@ namespace MySerenity.Pages
 
         private void Handle_Item_Selected(object sender, SelectedItemChangedEventArgs e)
         {
-            //throw new NotImplementedException();
+            if (MyClientListView.SelectedItem is Clientquestionnaire newClient)
+            {
+                Navigation.PushAsync(new MyClientDetailsPage(newClient));
+            }
         }
     }
 }

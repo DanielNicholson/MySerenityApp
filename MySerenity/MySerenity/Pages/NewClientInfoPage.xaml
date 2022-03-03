@@ -18,9 +18,10 @@
                         
                        
                         <Grid RowSpacing="15">
+
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" /><!--Row 0 - contains name input-->
@@ -38,7 +39,7 @@
 
                             <!--Row 0 - Contact number input-->
                             <Label Grid.Row="0" Grid.Column="0"  Text="What is your full name?" VerticalOptions="CenterAndExpand" MaxLines="3"/>
-                            <Label Grid.Row="0" Grid.Column="1"  x:Name="ClientNameEntry"  TextColor="{StaticResource TextColor}"/>
+                            <Label Grid.Row="0" Grid.Column="2"  x:Name="ClientNameEntry"  TextColor="{StaticResource TextColor}"/>
 
                             <!--Row 1 - contains gender info-->
                             <Label Grid.Row="1" Grid.Column="0"  Text="What is your gender?" MaxLines="3" />

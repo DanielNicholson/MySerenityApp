@@ -28,6 +28,21 @@ namespace MySerenity.Pages
         // bring up a journal page where you can view an old entry but can't edit the details.
         public AddJournalPage(JournalEntry entry)
         {
+            // picker index to know which index corresponds to what value
+            //< x:String > &#x1F604; Happy</x:String>
+            //< x:String > &#x1F642; Okay</x:String>
+            //< x:String > &#x1F610; Neutral</x:String>
+            //< x:String > &#x1F641; Not Okay</x:String>
+            //< x:String > &#x1F61e; Unhappy</x:String>
+
+            int moodDate = 0;
+
+            if (entry.JournalEntryMoodData == 0) moodDate = 4;
+            if (entry.JournalEntryMoodData == 1) moodDate = 3;
+            if (entry.JournalEntryMoodData == 2) moodDate = 2;
+            if (entry.JournalEntryMoodData == 3) moodDate = 1;
+            if (entry.JournalEntryMoodData == 4) moodDate = 0;
+
             InitializeComponent();
             journalTitle.Text = entry.JournalEntryTitle;
             journalText.Text = entry.JournalEntryText;
@@ -35,7 +50,7 @@ namespace MySerenity.Pages
             journalTitle.IsReadOnly = true;
             journalText.IsReadOnly = true;
             picker.IsEnabled = false;
-            picker.SelectedIndex = entry.JournalEntryMoodData;
+            picker.SelectedIndex = moodDate;
             SaveButton.IsEnabled = false;
             ToolBarTitle.Text = entry.JournalEntryTitle;
         }
@@ -45,13 +60,29 @@ namespace MySerenity.Pages
         // then submits the journal to firebase.
         private void SubmitJournal_clicked(object sender, EventArgs e)
         {
+
+            // picker index to know which index corresponds to what value
+            //< x:String > &#x1F604; Happy</x:String>
+            //< x:String > &#x1F642; Okay</x:String>
+            //< x:String > &#x1F610; Neutral</x:String>
+            //< x:String > &#x1F641; Not Okay</x:String>
+            //< x:String > &#x1F61e; Unhappy</x:String>
+
+            int moodData = 0;
+
+            if (picker.SelectedIndex == 0) moodData = 5;
+            if (picker.SelectedIndex == 1) moodData = 4;
+            if (picker.SelectedIndex == 2) moodData = 3;
+            if (picker.SelectedIndex == 3) moodData = 2;
+            if (picker.SelectedIndex == 4) moodData = 1;
+
             // created the new Journal Entry to map to Firebase.
             var newEntry = new JournalEntry()
             {
                 JournalEntryTitle = journalTitle.Text,
                 JournalEntryText = journalText.Text,
                 JournalEntryEntryTime = System.DateTime.Now.ToString(new CultureInfo("en-GB")),
-                JournalEntryMoodData = picker.SelectedIndex
+                JournalEntryMoodData = moodData
             };
 
             // submits the entry to firestore and displays the outcome message to the user then returns them to the Journal Entry list view.

@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:MySerenity.Pages;assembly=MySerenity"
              x:Class="MySerenity.Pages.HomePage">
 
+    <local:MyTherapistInfopage Title="Therapist"></local:MyTherapistInfopage>
     <local:ExercisePage Title="Exercise"></local:ExercisePage>
     <local:DashboardPage Title="Dashboard" ></local:DashboardPage>
     <local:JournalPage Title="Journal"></local:JournalPage>

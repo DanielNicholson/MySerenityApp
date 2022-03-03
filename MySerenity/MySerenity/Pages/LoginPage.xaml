@@ -9,7 +9,7 @@
             <Frame BackgroundColor ="{StaticResource MainBlueColor}" Padding="7.5">
                 <StackLayout>
                     <Label x:Name="MainBanner" 
-                           Text="My Serenity" 
+                           Text="MySerenity" 
                            Style="{StaticResource Header}"/>
 
                     <Label x:Name="UnderBanner" 
