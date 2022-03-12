@@ -3,10 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySerenity.Pages.ExercisePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Exercise Page!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+            <Frame BackgroundColor="{StaticResource MainBlueColor}" Padding="7.5" >
+                <Label x:Name="PromptLabel" Text="{Binding PromptLabelProp}" HorizontalTextAlignment="Center" TextColor="{StaticResource TextColor}" FontSize="36"/>
+            </Frame>
+
+            <Grid x:Name="MainGrid">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="0.3*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="0.5*" />
+
+                </Grid.ColumnDefinitions>
+
+                <Button Text="{Binding ButtonOneProp}"
+                        TextColor="{StaticResource TextColor}"
+                        Clicked="Handle_ClickedOne"
+                        x:Name="btn1"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        CornerRadius="100"/>
+
+                <Button Text="{Binding ButtonTwoProp}"
+                        TextColor="{StaticResource TextColor}"
+                        Clicked="Handle_ClickedTwo"
+                        x:Name="btn2"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        CornerRadius="100"/>
+
+                <Button Text="{Binding ButtonThreeProp}"
+                        TextColor="{StaticResource TextColor}"
+                        Clicked="Handle_ClickedThree"
+                        x:Name="btn3"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        CornerRadius="100"/>
+
+                <Button Text="{Binding ButtonFourProp}"
+                        TextColor="{StaticResource TextColor}"
+                        Clicked="Handle_ClickedFour"
+                        x:Name="btn4"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        CornerRadius="100"/>
+            </Grid>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

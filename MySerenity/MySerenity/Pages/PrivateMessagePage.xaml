@@ -28,6 +28,7 @@
                         VerticalOptions="FillAndExpand" 
                         SeparatorColor="Transparent"
                         BackgroundColor="{StaticResource MainBlueColor}"
+                        SelectionMode="None"
             >
                 <ListView.ItemsSource>
                     <Binding Path="chatLog" />
