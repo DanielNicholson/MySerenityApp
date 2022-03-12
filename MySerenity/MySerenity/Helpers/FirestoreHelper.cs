@@ -29,7 +29,6 @@ namespace MySerenity.Helpers
         Task<List<Message>> RetrieveConversation(string recieverID);           // Retrieves conversation from firestore
         Task<List<ChartEntry>> RetrieveMoodData();                             // Retrieves mood entry data from firestore to display on homepage graph
         Task<TherapistInfo> GetTherapistForClient();                           // Retrieves therapist info for client.
-
     }
 
     public class Firestore

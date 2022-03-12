@@ -33,7 +33,7 @@ namespace MySerenity.Pages
         {
             base.OnAppearing();
 
-            entries = await GetMoodChart();
+            entries = await GetMoodChartDataPoints();
 
             var chart = new LineChart()
             {
@@ -42,6 +42,8 @@ namespace MySerenity.Pages
                 LineSize = 8,
                 PointMode = PointMode.Square,
                 PointSize = 18,
+                LabelTextSize = 30f,
+                LabelOrientation = Orientation.Horizontal
             };
 
             chartView.Chart = chart;
@@ -58,7 +60,7 @@ namespace MySerenity.Pages
             }
         }
 
-        public async Task<List<ChartEntry>> GetMoodChart()
+        public async Task<List<ChartEntry>> GetMoodChartDataPoints()
         {
             return await Firestore.RetrieveMoodData();
         }

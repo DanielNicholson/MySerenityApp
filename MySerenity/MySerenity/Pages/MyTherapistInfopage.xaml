@@ -15,8 +15,6 @@
                                        HasShadow="False"
                                        IsVisible="True">
 
-
-
                     <Grid RowSpacing="15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -30,15 +28,11 @@
                             <RowDefinition Height="Auto" />
                             <!--Row 2 - contains membership selection-->
                             <RowDefinition Height="Auto" />
-                     
-
-
-
                         </Grid.RowDefinitions>
 
                         <!--Row 0 - contains message and call button-->
                         <Button Grid.Row="0" Grid.Column="0" Text="Message" BackgroundColor="#85aed0" Clicked="PrivateMessage_OnClicked"/>
-                        <Button Grid.Row="0" Grid.Column="1" Text="Call" BackgroundColor="#85aed0"/>
+                        <Button Grid.Row="0" Grid.Column="1" Text="Call" BackgroundColor="#85aed0" Clicked="CallButton_OnClicked"/>
 
                         <!--Row 1 - Contact number input-->
                         <Label Grid.Row="1" Grid.Column="0"  Text="Name: " VerticalOptions="CenterAndExpand" MaxLines="3"/>

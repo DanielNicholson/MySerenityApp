@@ -120,6 +120,7 @@ namespace MySerenity.Pages
                     if (dbevent.Object != null)
                     {
                         chatLog.Add(dbevent.Object);
+                        MessageListView.ScrollTo(chatLog[chatLog.Count -1], ScrollToPosition.End, true);
                     }
                 });
         }

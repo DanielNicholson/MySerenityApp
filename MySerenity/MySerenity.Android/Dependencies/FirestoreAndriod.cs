@@ -135,7 +135,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
-
+        // Saves the user role to firestore on account creation
         public bool SaveUserRole(bool isClient)
         {
             string role = isClient ? "Client" : "Therapist";
@@ -166,6 +166,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // saves the clients sign up questionaire to firestore on account creation.
         public bool SaveSignUpQuestions(Clientquestionnaire questions)
         {
             // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
@@ -206,6 +207,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // sets the client to be available for a therapist in firestore
         public bool ClientLookingForTherapist(ClientTherapistRelationship relation)
         {
             // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
@@ -235,6 +237,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // saves the therapist info to firestore on account creation
         public bool SaveTherapistInfo(TherapistInfo info)
         {
             // firestore is organised as a dictionary of keys and values - to save an object, we need to split the questions in to a dictionary that matches the columns in firestore and the values to store.
@@ -267,6 +270,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // gets the user role from firestore to log them into to the correct functionality
         public async Task<string> GetUserRole()
         {
             string role = "";
@@ -293,6 +297,7 @@ namespace MySerenity.Droid.Dependencies
             throw new Exception("User Role Not Found");
         }
 
+        // gets a list of all available clients from firestore
         public async Task<List<Clientquestionnaire>> ReadAllAvailableClients()
         {
             // get collection of all clients who haven't been matches with a therapist.
@@ -348,7 +353,6 @@ namespace MySerenity.Droid.Dependencies
             return clientDetails;
         }
 
-
         // returns all clients that are matched with the current authenticated therapist.
         public async Task<List<Clientquestionnaire>> ReadAllClientsForTherapist()
         {
@@ -401,6 +405,7 @@ namespace MySerenity.Droid.Dependencies
             return clientDetails;
         }
 
+        // updates a client therapist relationship to match with the therapist
         public async Task<bool> MatchTherapistWithClient(Clientquestionnaire entry) 
         {
             // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
@@ -437,6 +442,7 @@ namespace MySerenity.Droid.Dependencies
                 return false;
             }
         }
+
 
         public bool SendMessage(Message message)
         {
@@ -534,8 +540,9 @@ namespace MySerenity.Droid.Dependencies
             {
                 var chartEntry = new ChartEntry(journalEntry.JournalEntryMoodData)
                 {
-                    Label = journalEntry.Id,
-                    Color = SKColor.Parse("#3498db")
+                    Label = journalEntry.JournalEntryEntryTime,
+                    Color = SKColor.Parse("#3498db"),
+                    
                 };
 
                 moodEntries.Insert(moodEntries.Count, chartEntry);
