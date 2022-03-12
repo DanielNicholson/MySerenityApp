@@ -19,6 +19,11 @@ namespace MySerenity.iOS.Dependencies
             return Firebase.Auth.Auth.DefaultInstance.CurrentUser.Uid;
         }
 
+        public bool ResetPassword(string email)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsUserAuthenticated()
         {
             return Firebase.Auth.Auth.DefaultInstance.CurrentUser != null;

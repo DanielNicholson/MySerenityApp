@@ -556,6 +556,7 @@ namespace MySerenity.Droid.Dependencies
         {
             TherapistInfo info = null;
             string therapistID = "";
+
             // get collection of all user roles where the current authenticated userID matches the userID of the document.
             Query collectionQuery = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
             QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
@@ -563,21 +564,25 @@ namespace MySerenity.Droid.Dependencies
             // should only ever be one item returned.
             if (collectionSnapshot.Size() != 1)
             {
-                throw new Exception("Error, please contact support");
+                throw new Exception($"Error, Too many client records in ClientTherapistRelationship for {FirebaseAuth.Instance.CurrentUser.Uid}.");
             }
             else
             {
+                // only 1 doc stored in collectionSnapshot - get therapist ID to search for therapist details in therapistInfo table.
                 foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
                 {
                     therapistID = doc.Get("TherapistID").ToString();
                 }
 
+                // get a collection snapshot of all therapistInfo where userID == therapistID from previous query
                 Query collectionQueryTwo = FirebaseFirestore.Instance.Collection("TherapistInfo").WhereEqualTo("userID", therapistID);
                 QuerySnapshot collectionSnapshotTwo = (QuerySnapshot)await collectionQueryTwo.Get();
 
+                // should only ever be one therapist info for each user ID
                 if (collectionSnapshotTwo.Size() != 1)
                 {
-                    throw new Exception("Error, please contact support");
+                    return info;
+                    throw new Exception($"Error, error receiving therapist info documents in TherapistInfo table for {therapistID}");
                 }
 
                 foreach (DocumentSnapshot doc in collectionSnapshotTwo.Documents)
