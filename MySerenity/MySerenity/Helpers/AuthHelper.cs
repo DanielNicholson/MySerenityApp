@@ -14,6 +14,7 @@ namespace MySerenity.Helpers
         Task<bool> LoginUser(string email, string password);
         bool IsUserAuthenticated();
         string GetCurrentUserId();
+        bool ResetPassword(string email);
     }
 
 
@@ -56,6 +57,11 @@ namespace MySerenity.Helpers
         public static string GetCurrentUserId()
         {
             return auth.GetCurrentUserId();
+        }
+
+        public static bool ResetPassword(string email)
+        {
+            return auth.ResetPassword(email);
         }
     }
 }

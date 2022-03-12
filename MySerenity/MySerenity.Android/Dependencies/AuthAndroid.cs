@@ -22,6 +22,26 @@ namespace MySerenity.Droid.Dependencies
             return Firebase.Auth.FirebaseAuth.Instance.CurrentUser.Uid;
         }
 
+        public bool ResetPassword(string email)
+        {
+            Firebase.Auth.FirebaseAuth.Instance.SendPasswordResetEmailAsync(email).ContinueWith(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    return false;
+                }
+
+                if (task.IsFaulted)
+                {
+                    return false;
+                }
+
+                return true;
+            });
+
+            return true;
+        }
+
         public bool IsUserAuthenticated()
         {
             return Firebase.Auth.FirebaseAuth.Instance.CurrentUser != null;

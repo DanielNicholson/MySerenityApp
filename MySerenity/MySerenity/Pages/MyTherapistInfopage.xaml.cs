@@ -65,7 +65,7 @@ namespace MySerenity.Pages
             }
             catch (Exception ex)
             {
-                // An unexpected error occured. No browser may be installed on the device.
+                
             }
         }
     }

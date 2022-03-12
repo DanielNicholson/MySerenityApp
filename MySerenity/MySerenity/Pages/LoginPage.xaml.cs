@@ -68,7 +68,7 @@ namespace MySerenity.Pages
         // navigate to forgotten password screen.
         private void Forgotten_Password(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new ForgottenPasswordPage());
         }
     }
 }

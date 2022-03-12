@@ -34,6 +34,11 @@ namespace MySerenity.Pages
             On<Android>().SetToolbarPlacement(ToolbarPlacement.Bottom);
             InitializeComponent();
 
+            var pages = Children.GetEnumerator();
+            pages.MoveNext();
+            pages.MoveNext();
+            pages.MoveNext();
+            CurrentPage = pages.Current;
         }
 
         protected override async void OnAppearing()
