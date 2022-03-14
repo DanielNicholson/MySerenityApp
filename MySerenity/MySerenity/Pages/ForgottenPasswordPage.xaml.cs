@@ -27,7 +27,7 @@ namespace MySerenity.Pages
         {
             var result = Auth.ResetPassword(EmailEntry.Text);
 
-            DisplayAlert("Password Reset", result ? "Reset Successfully" : "Reset Failed - please contact support", "Ok");
+            DisplayAlert("Password Reset", result ? "Password Reset Link Successfully sent, please check your email." : "Password Reset Failed - please contact support", "Ok");
         }
     }
 }
