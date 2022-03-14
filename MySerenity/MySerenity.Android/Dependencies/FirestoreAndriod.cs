@@ -534,6 +534,7 @@ namespace MySerenity.Droid.Dependencies
         {
             List<ChartEntry> moodEntries = new List<ChartEntry>();
 
+            // get a list of all saved journal entries for the authenticated user
             var journalEntries = await Helpers.Firestore.ReadAllJournalEntriesForUser();
 
             foreach (var journalEntry in journalEntries)
@@ -585,6 +586,7 @@ namespace MySerenity.Droid.Dependencies
                     throw new Exception($"Error, error receiving therapist info documents in TherapistInfo table for {therapistID}");
                 }
 
+                // get therapist info out of document and store in info (to be returned)
                 foreach (DocumentSnapshot doc in collectionSnapshotTwo.Documents)
                 {
                     info = new TherapistInfo()
@@ -605,7 +607,7 @@ namespace MySerenity.Droid.Dependencies
 
         public async Task<bool> UnmatchClientFromTherapist(TherapistInfo info)
         {
-            // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            // firestore is organised as a dictionary of keys and values - to update an object
             try
             {
                 // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
@@ -616,7 +618,7 @@ namespace MySerenity.Droid.Dependencies
                     {"TherapistID", ""}
                 };
 
-                // get the collection of Clientquestionnaires
+                // get the collection of ClientTherapistRelationship
                 var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
 
                 // get record of client who matches the userID
@@ -636,6 +638,43 @@ namespace MySerenity.Droid.Dependencies
             catch (Exception e)
             {
                 // error has occured - return false
+                return false;
+            }
+        }
+
+        public async Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client)
+        {
+            // firestore is organised as a dictionary of keys and values - to update an object
+            try
+            {
+                // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
+                var clientTherapistRelationship = new Dictionary<string, Object>
+                {
+                    {"userID", client.UserId},
+                    {"IsApproved", false},
+                    {"TherapistID", ""}
+                };
+
+                // get the collection of all ClientTherapistRelationship documents from firestore
+                var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
+
+                // get record of client who matches the userID
+                Query clientRecords = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", client.UserId);
+                QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await clientRecords.Get();
+
+                // should only ever return one record
+                if (unapprovedClientsSnapshot.Size() == 1)
+                {
+                    // update the document by ID with the dictionary of values
+                    await collection.Document(unapprovedClientsSnapshot.Documents.First().Id).Update(clientTherapistRelationship);
+
+                    // return true if no errors
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
                 return false;
             }
         }

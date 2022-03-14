@@ -56,5 +56,21 @@ namespace MySerenity.Pages
         {
             await OpenBrowser();
         }
+
+        private async void UnmatchClient_OnClicked(object sender, EventArgs e)
+        {
+            bool ans = await DisplayAlert("Are you sure you want to umatch from:", _clientDetails.ClientName, "Yes", "No");
+
+            if (ans)
+            {
+                var result = await Firestore.UnmatchTherapistFromClient(_clientDetails);
+
+                if (result)
+                {
+                    await DisplayAlert("Unmatched successfully", $"You have successfully unmatched from {_clientDetails.ClientName}", "Ok");
+                    await Navigation.PopAsync();
+                }
+            }
+        }
     }
 }

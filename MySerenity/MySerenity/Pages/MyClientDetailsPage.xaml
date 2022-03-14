@@ -66,6 +66,13 @@
                 </Frame>
 
             </ScrollView>
+
+
+            <Frame x:Name="UnmatchClientFrame"
+                   BackgroundColor="{StaticResource MainBlueColor}">
+                <Button Text="Unmatch From Client" BackgroundColor="#85aed0" Clicked="UnmatchClient_OnClicked"/>
+            </Frame>
+
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
