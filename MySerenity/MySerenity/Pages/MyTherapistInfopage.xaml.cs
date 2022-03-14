@@ -81,7 +81,8 @@ namespace MySerenity.Pages
 
                 if (result)
                 {
-                    await DisplayAlert("Are you sure you want to unmatch from?", info.Name, "Yes", "No");
+                    await DisplayAlert("Unmatched successfully", $"You have successfully unmatched from {info.Name}", "Ok");
+                    OnAppearing();
                 }
             }
         }

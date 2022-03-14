@@ -239,6 +239,11 @@ namespace MySerenity.iOS.Dependencies
             throw new NotImplementedException();
         }
 
+        public Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> RetrieveConversation(string recieverID)
         {
             throw new NotImplementedException();
