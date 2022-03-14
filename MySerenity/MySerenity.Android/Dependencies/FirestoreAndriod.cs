@@ -603,6 +603,43 @@ namespace MySerenity.Droid.Dependencies
             return info;
         }
 
+        public async Task<bool> UnmatchClientFromTherapist(TherapistInfo info)
+        {
+            // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
+                var clientTherapistRelationship = new Dictionary<string, Object>
+                {
+                    {"userID", FirebaseAuth.Instance.CurrentUser.Uid},
+                    {"IsApproved", false},
+                    {"TherapistID", ""}
+                };
+
+                // get the collection of Clientquestionnaires
+                var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
+
+                // get record of client who matches the userID
+                Query clientRecords = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
+                QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await clientRecords.Get();
+
+                if (unapprovedClientsSnapshot.Size() == 1)
+                {
+                    // update the document by ID with the dictionary of values
+                    await collection.Document(unapprovedClientsSnapshot.Documents.First().Id).Update(clientTherapistRelationship);
+
+                    // return true if no errors
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                // error has occured - return false
+                return false;
+            }
+        }
+
 
         public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
         {
@@ -634,7 +671,6 @@ namespace MySerenity.Droid.Dependencies
             entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
             return entries;
         }
-
 
     }
 }
