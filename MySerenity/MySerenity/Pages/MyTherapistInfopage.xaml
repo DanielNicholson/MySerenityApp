@@ -48,11 +48,18 @@
 
             </ScrollView>
 
+            <Frame x:Name="UnmatchTherapistFrame"
+                   BackgroundColor="{StaticResource MainBlueColor}">
+                <Button Text="Unmatch From Therapist" BackgroundColor="#85aed0" Clicked="UnmatchTherapist_OnClicked"/>
+            </Frame>
+
             <Frame x:Name="NoTherapistFrame"
                    VerticalOptions="StartAndExpand" 
                    BackgroundColor="{StaticResource MainBlueColor}" 
                    HasShadow="False"
-                   IsVisible="False">
+                   IsVisible="False"
+                   BorderColor="Transparent"
+                   >
 
                 <Label Text="You do not have a therapist yet. Please check again soon!" />
 

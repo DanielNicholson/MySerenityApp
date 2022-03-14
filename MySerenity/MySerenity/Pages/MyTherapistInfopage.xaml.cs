@@ -31,6 +31,7 @@ namespace MySerenity.Pages
             {
                 TherapistInfoFrame.IsVisible = false;
                 TherapistInfoScrollView.IsVisible = false;
+                UnmatchTherapistFrame.IsVisible = false;
 
                 NoTherapistFrame.IsVisible = true;
             }
@@ -66,6 +67,22 @@ namespace MySerenity.Pages
             catch (Exception ex)
             {
                 
+            }
+        }
+
+        private async void UnmatchTherapist_OnClicked(object sender, EventArgs e)
+        {
+
+            bool ans = await DisplayAlert("Are you sure you want to umatch from:", info.Name, "Yes", "No");
+
+            if (ans)
+            {
+                var result = await Firestore.UnmatchClientFromTherapist(info);
+
+                if (result)
+                {
+                    await DisplayAlert("Are you sure you want to unmatch from?", info.Name, "Yes", "No");
+                }
             }
         }
     }
