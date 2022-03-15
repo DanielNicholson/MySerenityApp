@@ -6,16 +6,12 @@
         <StackLayout BackgroundColor="{StaticResource MainBlueColor}">
 
             <ScrollView VerticalOptions="StartAndExpand">
-
-
                 <!--Frame containing questions and answers from when client signed up -->
                 <Frame x:Name="ClientQuestionsAndAnswers"
                                        VerticalOptions="StartAndExpand" 
                                        BackgroundColor="{StaticResource MainBlueColor}" 
                                        HasShadow="False"
                                        IsVisible="True">
-
-
 
                     <Grid RowSpacing="15">
                         <Grid.ColumnDefinitions>
@@ -34,9 +30,6 @@
                             <RowDefinition Height="Auto" />
                             <!--Row 4 - contains previous therapy question selection-->
                             <RowDefinition Height="Auto" />
-                            
-                          
-                            
                         </Grid.RowDefinitions>
 
                         <!--Row 0 - contains message and call button-->
@@ -59,14 +52,9 @@
                         <Label Grid.Row="4" Grid.Column="0" Text="Reasons for therapy:" MaxLines="3"/>
                         <Label Grid.Row="4" Grid.Column="1"  x:Name="ClientTherapyReasonsEntry"  TextColor="{StaticResource TextColor}"/>
 
-                        
-
-
                     </Grid>
                 </Frame>
-
             </ScrollView>
-
 
             <Frame x:Name="UnmatchClientFrame"
                    BackgroundColor="{StaticResource MainBlueColor}">

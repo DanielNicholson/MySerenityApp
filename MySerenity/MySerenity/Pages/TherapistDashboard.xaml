@@ -5,6 +5,7 @@
             x:Class="MySerenity.Pages.TherapistDashboard">
 
     <local:TherapistClientListPage Title="Client List"></local:TherapistClientListPage>
+    <local:TherapistProfilePage Title="My Profile"></local:TherapistProfilePage>
 
 
 </TabbedPage>
