@@ -8,7 +8,7 @@
             <ScrollView VerticalOptions="StartAndExpand"
                         x:Name="TherapistInfoScrollView"
                         IsVisible="False">
-                <!--Frame containing questions and answers from when client signed up -->
+                <!--Frame containing questions and answers from when therapist signed up -->
                 <Frame x:Name="TherapistInfoFrame"
                                        VerticalOptions="StartAndExpand" 
                                        BackgroundColor="{StaticResource MainBlueColor}" 
@@ -21,30 +21,71 @@
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <!--Row 0 - contains message and call button-->
-                            <RowDefinition Height="Auto" />
-                            <!--Row 1 - contains name input-->
-                            <RowDefinition Height="Auto" />
-                            <!--Row 2 - contains membership selection-->
-                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" /><!--Row 0 - contains message and call button-->
+                            <RowDefinition Height="Auto" /><!--Row 1 - Therapist Name labels-->
+                            <RowDefinition Height="Auto" /><!--Row 2 - contains membership info-->
+                            <RowDefinition Height="Auto" /><!--Row 3 - contains TherapistWorkingDaysEntry selection-->
+                            <RowDefinition Height="Auto" /><!--Row 4 and 5 - contains TherapistDescriptionEntry selection-->
+                            <RowDefinition Height="Auto" /><!--Row 4 and 5 - contains TherapistDescriptionEntry selection-->
                         </Grid.RowDefinitions>
 
                         <!--Row 0 - contains message and call button-->
                         <Button Grid.Row="0" Grid.Column="0" Text="Message" BackgroundColor="#85aed0" Clicked="PrivateMessage_OnClicked"/>
                         <Button Grid.Row="0" Grid.Column="1" Text="Call" BackgroundColor="#85aed0" Clicked="CallButton_OnClicked"/>
 
-                        <!--Row 1 - Contact number input-->
+                        <!--Row 1 - Therapist Name labels-->
                         <Label Grid.Row="1" Grid.Column="0"  Text="Name: " VerticalOptions="CenterAndExpand" MaxLines="3"/>
                         <Label Grid.Row="1" Grid.Column="1"  x:Name="TherapistNameEntry"  TextColor="{StaticResource TextColor}"/>
 
-                        <!--Row 2 - contains gender info-->
+                        <!--Row 2 - contains membership info-->
                         <Label Grid.Row="2" Grid.Column="0"  Text="Membership:" MaxLines="3" />
                         <Label Grid.Row="2" Grid.Column="1"  x:Name="MembershipEntry" TextColor="{StaticResource TextColor}"/>
+
+                        <!--Row 3 - contains TherapistWorkingDaysEntry selection-->
+                        <Label Grid.Row="3" Grid.Column="0"  Text="Working days:" MaxLines="3"/>
+                        <Grid Grid.Row="3" Grid.Column="1" VerticalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Text="Monday"  Grid.Row="0" Grid.Column="0"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" x:Name="MondayBox" IsEnabled="False"/>
+
+                            <Label Text="Tuesday"  Grid.Row="1" Grid.Column="0"/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" x:Name="TuesdayBox" IsEnabled="False"/>
+
+                            <Label Text="Wednesday"  Grid.Row="2" Grid.Column="0"/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" x:Name="WednesdayBox" IsEnabled="False"/>
+
+                            <Label Text="Thursday"  Grid.Row="3" Grid.Column="0"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" x:Name="ThursdayBox" IsEnabled="False"/>
+
+                            <Label Text="Friday"  Grid.Row="4" Grid.Column="0"/>
+                            <CheckBox Grid.Row="4" Grid.Column="1" x:Name="FridayBox" IsEnabled="False"/>
+
+                            <Label Text="Saturday"  Grid.Row="5" Grid.Column="0"/>
+                            <CheckBox Grid.Row="5" Grid.Column="1" x:Name="SaturdayBox" IsEnabled="False"/>
+
+                            <Label Text="Sunday"  Grid.Row="6" Grid.Column="0"/>
+                            <CheckBox Grid.Row="6" Grid.Column="1" x:Name="SundayBox" IsEnabled="False"/>
+
+                        </Grid>
+
+                        <!--Row 4 and 5 - contains TherapistDescriptionEntry selection-->
+                        <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  Text="Description:" MaxLines="3"/>
+                        <Editor Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"  x:Name="TherapistDescriptionEntry" TextColor="{StaticResource TextColor}"  IsReadOnly="True" AutoSize="TextChanges"/>
                     </Grid>
                 </Frame>
-
-                
 
             </ScrollView>
 
@@ -53,6 +94,7 @@
                 <Button Text="Unmatch From Therapist" BackgroundColor="#85aed0" Clicked="UnmatchTherapist_OnClicked"/>
             </Frame>
 
+            <!--Frame is shown when user has not been matched with a therapist yet.-->
             <Frame x:Name="NoTherapistFrame"
                    VerticalOptions="StartAndExpand" 
                    BackgroundColor="{StaticResource MainBlueColor}" 
@@ -62,8 +104,6 @@
                    >
 
                 <Label Text="You do not have a therapist yet. Please check again soon!" />
-
-
             </Frame>
         </StackLayout>
     </ContentPage.Content>

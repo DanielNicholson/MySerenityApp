@@ -15,10 +15,13 @@ namespace MySerenity.Pages
     public partial class MyTherapistInfopage : ContentPage
     {
         public static TherapistInfo info;
+        public static TherapistWorkingDays schedule;
+
         public MyTherapistInfopage()
         {
             InitializeComponent();
             info = null;
+            schedule = null;
         }
 
         protected override async void OnAppearing()
@@ -26,6 +29,7 @@ namespace MySerenity.Pages
             base.OnAppearing();
 
             info = await Firestore.GetTherapistForClient();
+            schedule = await Firestore.GetTherapistSchedule(info.UserId);
 
             if (info == null)
             {
@@ -44,6 +48,18 @@ namespace MySerenity.Pages
 
                 TherapistNameEntry.Text = info.Name;
                 MembershipEntry.Text = info.Membership;
+                TherapistDescriptionEntry.Text = info.Description;
+            }
+
+            if (schedule != null)
+            {
+                MondayBox.IsChecked = schedule.Monday;
+                TuesdayBox.IsChecked = schedule.Tuesday;
+                WednesdayBox.IsChecked = schedule.Wednesday;
+                ThursdayBox.IsChecked = schedule.Thursday;
+                FridayBox.IsChecked = schedule.Friday;
+                SaturdayBox.IsChecked = schedule.Saturday;
+                SundayBox.IsChecked = schedule.Sunday;
             }
         }
 

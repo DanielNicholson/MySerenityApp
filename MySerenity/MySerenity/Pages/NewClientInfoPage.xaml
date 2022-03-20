@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySerenity.Pages.NewClientInfoPage">
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout >
 
             <ScrollView VerticalOptions="StartAndExpand">
                 
@@ -17,7 +17,8 @@
 
                         
                        
-                        <Grid RowSpacing="15">
+                        <Grid RowSpacing="15"
+                              ColumnSpacing="20">
 
                             <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
@@ -39,10 +40,10 @@
 
                             <!--Row 0 - Contact number input-->
                             <Label Grid.Row="0" Grid.Column="0"  Text="What is your full name?" VerticalOptions="CenterAndExpand" MaxLines="3"/>
-                            <Label Grid.Row="0" Grid.Column="2"  x:Name="ClientNameEntry"  TextColor="{StaticResource TextColor}"/>
+                            <Label Grid.Row="0" Grid.Column="1"  x:Name="ClientNameEntry"  TextColor="{StaticResource TextColor}"/>
 
                             <!--Row 1 - contains gender info-->
-                            <Label Grid.Row="1" Grid.Column="0"  Text="What is your gender?" MaxLines="3" />
+                            <Label Grid.Row="1" Grid.Column="0"  Text="What is your gender?"  VerticalOptions="CenterAndExpand" MaxLines="3" />
                             <Label Grid.Row="1" Grid.Column="1"  x:Name="ClientGenderEntry" TextColor="{StaticResource TextColor}"/>
 
                             <!--Row 2 - contains age info-->
@@ -91,7 +92,8 @@
                         Text="Accept Client"
                         FontAttributes="Bold" 
                         FontSize="Large" 
-                        HorizontalOptions="FillAndExpand" />
+                        HorizontalOptions="FillAndExpand" 
+                        BackgroundColor="#85aed0"/>
             </Frame>
         </StackLayout>
     </ContentPage.Content>

@@ -345,8 +345,9 @@
                                     <RowDefinition Height="Auto" />  <!--Row 2 - contains therapist interest selection-->
                                     <RowDefinition Height="Auto" />  <!--Row 3 - contains therapy reasons selection-->
                                     <RowDefinition Height="Auto" />  <!--Row 4 - Therapist name input-->
-                                    
-                                </Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />  <!--Row 5 - Therapist description input-->
+                                    <RowDefinition Height="Auto" />  <!--Row 6 - Therapist working days input-->
+                                    </Grid.RowDefinitions>
 
                                 <!--Row 0 - contains professional membership selection-->
                                 <Label Grid.Row="0" Grid.Column="0"  Text="Please select your professional membership type." />
@@ -412,8 +413,16 @@
 
 
                                 <!--Row 4 - Therapist name input-->
-                                <Label Grid.Row="4" Grid.Column="0"  Text="And finally, what is your name?" />
+                                <Label Grid.Row="4" Grid.Column="0"  Text="What is your name?" />
                                 <Entry Grid.Row="4" Grid.Column="1" Placeholder="Full name" x:Name="TherapistNameEntry"/>
+
+                                <!--Row 5 - Therapist description input-->
+                                <Label Grid.Row="5" Grid.Column="0"  Text="How would you describe yourself to a client?" />
+                                <Entry Grid.Row="5" Grid.Column="1" Placeholder="Description" x:Name="TherapistDescriptionEntry"/>
+
+                                <!--Row 6 - Therapist working days input-->
+                                <Label Grid.Row="6" Grid.Column="0"  Text="What days do you intend to work?" />
+                                <Entry Grid.Row="6" Grid.Column="1" Placeholder="Description" x:Name="TherapistWorkingDaysEntry"/>
 
                                 </Grid>
                         </Frame>

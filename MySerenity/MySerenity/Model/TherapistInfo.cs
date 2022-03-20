@@ -20,5 +20,8 @@ namespace MySerenity.Model
 
         public string MySerenityAwareness { get; set; }
 
+        public string Description { get; set; }
+
+
     }
 }

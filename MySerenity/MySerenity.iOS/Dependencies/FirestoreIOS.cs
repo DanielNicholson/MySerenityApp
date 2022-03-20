@@ -244,6 +244,26 @@ namespace MySerenity.iOS.Dependencies
             throw new NotImplementedException();
         }
 
+        public Task<TherapistInfo> GetTherapistInfo()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> UpdateTherapistInfo(TherapistInfo info)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TherapistWorkingDays> GetTherapistSchedule()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<bool> RetrieveConversation(string recieverID)
         {
             throw new NotImplementedException();

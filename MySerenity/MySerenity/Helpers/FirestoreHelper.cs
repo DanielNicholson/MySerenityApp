@@ -30,7 +30,11 @@ namespace MySerenity.Helpers
         Task<List<ChartEntry>> RetrieveMoodData();                             // Retrieves mood entry data from firestore to display on homepage graph
         Task<TherapistInfo> GetTherapistForClient();                           // Retrieves therapist info for client.
         Task<bool> UnmatchClientFromTherapist(TherapistInfo info);             // Update selected entry in firestore
-        Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client);             // Update selected entry in firestore
+        Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client);     // Update selected entry in firestore
+        Task<TherapistInfo> GetTherapistInfo();                                // Retrieves therapist info for authenticated therapist
+        Task<bool> UpdateTherapistInfo(TherapistInfo info);                    // Update selected entry in firestore
+        Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule);
+        Task<TherapistWorkingDays> GetTherapistSchedule(string userID);
     }
 
     public class Firestore
@@ -130,6 +134,26 @@ namespace MySerenity.Helpers
         public static Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client)
         {
             return _firestore.UnmatchTherapistFromClient(client);
+        }
+
+        public static Task<TherapistInfo> GetTherapistInfo()
+        {
+            return _firestore.GetTherapistInfo();
+        }
+
+        public static Task<bool> UpdateTherapistInfo(TherapistInfo info)
+        {
+            return _firestore.UpdateTherapistInfo(info);
+        }
+
+        public static Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule)
+        {
+            return _firestore.SaveTherapistSchedule(schedule);
+        }
+
+        public static Task<TherapistWorkingDays> GetTherapistSchedule(string userID)
+        {
+            return _firestore.GetTherapistSchedule(userID);
         }
     }
 
