@@ -251,7 +251,8 @@ namespace MySerenity.Droid.Dependencies
                     {"Membership", info.Membership},
                     {"MySerenityInterest", info.MySerenityInterest},
                     {"MySerenityTime", info.MySerenityTime},
-                    {"MySerenityAwareness", info.MySerenityAwareness}
+                    {"MySerenityAwareness", info.MySerenityAwareness},
+                    {"Description", info.Description},
                 };
 
                 // make a reference to the firestore collection
@@ -597,6 +598,7 @@ namespace MySerenity.Droid.Dependencies
                         MySerenityTime = doc.Get("MySerenityTime").ToString(),
                         MySerenityAwareness = doc.Get("MySerenityAwareness").ToString(),
                         UserId = doc.Get("userID").ToString(),
+                        Description = doc.Get("Description").ToString()
 
                     };
                 }
@@ -677,6 +679,162 @@ namespace MySerenity.Droid.Dependencies
             {
                 return false;
             }
+        }
+
+        public async Task<TherapistInfo> GetTherapistInfo()
+        {
+            TherapistInfo info = null;
+            string therapistID = "";
+
+            // get a collection snapshot of all therapistInfo where userID == therapistID from previous query
+            Query collectionQueryTwo = FirebaseFirestore.Instance.Collection("TherapistInfo").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot collectionSnapshotTwo = (QuerySnapshot)await collectionQueryTwo.Get();
+
+            // should only ever be one therapist info for each user ID
+            if (collectionSnapshotTwo.Size() != 1)
+            {
+                return info;
+                throw new Exception($"Error, error receiving therapist info documents in TherapistInfo table for {therapistID}");
+            }
+
+            // get therapist info out of document and store in info (to be returned)
+            foreach (DocumentSnapshot doc in collectionSnapshotTwo.Documents)
+            {
+                info = new TherapistInfo()
+                {
+                    Name = doc.Get("Name").ToString(),
+                    Membership = doc.Get("Membership").ToString(),
+                    MySerenityInterest = doc.Get("MySerenityInterest").ToString(),
+                    MySerenityTime = doc.Get("MySerenityTime").ToString(),
+                    MySerenityAwareness = doc.Get("MySerenityAwareness").ToString(),
+                    UserId = doc.Get("userID").ToString(),
+                    Description = doc.Get("Description").ToString(),
+                };
+            }
+
+            return info;
+        }
+
+        public async Task<bool> UpdateTherapistInfo(TherapistInfo info)
+        {
+            // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
+                var therapistInfo = new Dictionary<string, Object>
+                {
+                    {"userID", info.UserId},
+                    {"Name", info.Name},
+                    {"Membership", info.Membership},
+                    {"MySerenityInterest", info.MySerenityInterest},
+                    {"MySerenityTime", info.MySerenityTime},
+                    {"MySerenityAwareness", info.MySerenityAwareness},
+                    {"Description", info.Description},
+                };
+
+                // get the collection of Clientquestionnaires
+                var collection = FirebaseFirestore.Instance.Collection("TherapistInfo");
+
+                // get record of client who matches the userID
+                Query TherapistInfo = FirebaseFirestore.Instance.Collection("TherapistInfo").WhereEqualTo("userID", info.UserId);
+                QuerySnapshot TherapistInfoSnapshot = (QuerySnapshot)await TherapistInfo.Get();
+
+                if (TherapistInfoSnapshot.Size() == 1)
+                {
+                    // update the document by ID with the dictionary of values
+                    await collection.Document(TherapistInfoSnapshot.Documents.First().Id).Update(therapistInfo);
+
+                    // return true if no errors
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                // error has occured - return false
+                return false;
+            }
+        }
+
+        public async Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule)
+        {
+            // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            try
+            {
+                // create dictionary of keys and values that match 'TherapistWorkingDays' in firestore
+                var therapistSchedule = new Dictionary<string, Object>
+                {
+                    {"UserId", schedule.UserId},
+                    {"Monday", schedule.Monday},
+                    {"Tuesday", schedule.Tuesday},
+                    {"Wednesday",schedule.Wednesday},
+                    {"Thursday", schedule.Thursday},
+                    {"Friday", schedule.Friday},
+                    {"Saturday", schedule.Saturday},
+                    {"Sunday", schedule.Sunday},
+                };
+
+                // get the collection of TherapistWorkingDays
+                var collection = FirebaseFirestore.Instance.Collection("TherapistWorkingDays");
+
+                // get record of therapist who matches the userID
+                Query TherapistInfo = FirebaseFirestore.Instance.Collection("TherapistWorkingDays").WhereEqualTo("UserId", FirebaseAuth.Instance.CurrentUser.Uid);
+                QuerySnapshot TherapistInfoSnapshot = (QuerySnapshot) await TherapistInfo.Get();
+
+                if (TherapistInfoSnapshot.Size() == 1)
+                {
+                    // update the document by ID with the dictionary of values
+                    await collection.Document(TherapistInfoSnapshot.Documents.First().Id).Update(therapistSchedule);
+
+                    // return true if no errors
+                    return true;
+                }
+                else
+                {
+                    // no record previously found, save new record.
+                    collection.Add(new HashMap(therapistSchedule));
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                // error has occured - return false
+                return false;
+            }
+        }
+
+        public async Task<TherapistWorkingDays> GetTherapistSchedule(string userID)
+        {
+            TherapistWorkingDays schedule = null;
+
+            // get a collection snapshot of all therapistInfo where userID == therapistID from previous query
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("TherapistWorkingDays").WhereEqualTo("UserId", userID);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
+
+            // should only ever be one therapist info for each user ID
+            if (collectionSnapshot.Size() != 1)
+            {
+                return schedule;
+            }
+
+            // get therapist info out of document and store in info (to be returned)
+            foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
+            {
+                schedule = new TherapistWorkingDays()
+                {
+                    UserId = doc.Get("UserId").ToString(),
+                    Monday = (bool)doc.Get("Monday"),
+                    Tuesday = (bool)doc.Get("Tuesday"),
+                    Wednesday = (bool)doc.Get("Wednesday"),
+                    Thursday = (bool)doc.Get("Thursday"),
+                    Friday = (bool)doc.Get("Friday"),
+                    Saturday = (bool)doc.Get("Saturday"),
+                    Sunday = (bool)doc.Get("Sunday"),
+                };
+            }
+
+            return schedule;
         }
 
 

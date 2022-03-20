@@ -16,7 +16,7 @@ namespace MySerenity.Pages
         public VideoCallingPage()
         {
             InitializeComponent();
-            MyWebView.Source = "https://myserenityvideocalling.z33.web.core.windows.net/#56d97";
+            MyWebView.Source = "https://myserenityvideocalling.z33.web.core.windows.net/#56d97"; // opens a browser with the one on one chat room to allow therapist and client to have a therapy session.
         }
     }
 }

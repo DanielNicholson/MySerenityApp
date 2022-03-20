@@ -3,10 +3,118 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MySerenity.Pages.TherapistProfilePage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout BackgroundColor="{StaticResource MainBlueColor}" >
+
+            <ScrollView VerticalOptions="StartAndExpand">
+
+
+                <!--Frame containing questions and answers from when client signed up -->
+                <Frame x:Name="ClientQuestionsAndAnswers"
+                                       VerticalOptions="StartAndExpand" 
+                                       BackgroundColor="{StaticResource MainBlueColor}" 
+                                       HasShadow="False"
+                                       IsVisible="True"
+                                       BorderColor="Transparent">
+
+
+
+                    <Grid RowSpacing="15"
+                              ColumnSpacing="10">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" /><!--Row 0 - contains name input-->
+                            <RowDefinition Height="Auto" /><!--Row 1 - contains TherapistMembershipEntry experience-->
+                            <RowDefinition Height="Auto" /><!--Row 2 - contains TherapistWorkingDaysEntry selection-->
+                            <RowDefinition Height="Auto" /><!--Row 3 - contains TherapistDescriptionEntry selection-->
+                            <RowDefinition Height="Auto" /><!--Row 3 and 4 - contains TherapistDescriptionEntry selection-->
+
+                        </Grid.RowDefinitions>
+
+                        <!--Row 0 - Contact number input-->
+                        <Label Grid.Row="0" Grid.Column="0"  Text="Name:" VerticalOptions="CenterAndExpand" MaxLines="3"/>
+                        <Editor Grid.Row="0" Grid.Column="1"  x:Name="TherapistNameEntry"  TextColor="{StaticResource TextColor}"  IsReadOnly="True" AutoSize="TextChanges"/>
+
+                        <!--Row 1 - contains TherapistMembershipEntry experience-->
+                        <Label Grid.Row="1" Grid.Column="0" Text="Membership:" MaxLines="3"/>
+                        <Editor Grid.Row="1" Grid.Column="1"  x:Name="TherapistMembershipEntry"  TextColor="{StaticResource TextColor}"  IsReadOnly="True" AutoSize="TextChanges" HeightRequest="100"/>
+
+                        <!--Row 2 - contains TherapistWorkingDaysEntry selection-->
+                        <Label Grid.Row="2" Grid.Column="0"  Text="Working days:" MaxLines="3"/>
+                        <Grid Grid.Row="2" Grid.Column="1" VerticalOptions="FillAndExpand">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Label Text="Monday"  Grid.Row="0" Grid.Column="0"/>
+                            <CheckBox Grid.Row="0" Grid.Column="1" x:Name="MondayBox" IsEnabled="False"/>
+
+                            <Label Text="Tuesday"  Grid.Row="1" Grid.Column="0"/>
+                            <CheckBox Grid.Row="1" Grid.Column="1" x:Name="TuesdayBox" IsEnabled="False"/>
+
+                            <Label Text="Wednesday"  Grid.Row="2" Grid.Column="0"/>
+                            <CheckBox Grid.Row="2" Grid.Column="1" x:Name="WednesdayBox" IsEnabled="False"/>
+
+                            <Label Text="Thursday"  Grid.Row="3" Grid.Column="0"/>
+                            <CheckBox Grid.Row="3" Grid.Column="1" x:Name="ThursdayBox" IsEnabled="False"/>
+
+                            <Label Text="Friday"  Grid.Row="4" Grid.Column="0"/>
+                            <CheckBox Grid.Row="4" Grid.Column="1" x:Name="FridayBox" IsEnabled="False"/>
+
+                            <Label Text="Saturday"  Grid.Row="5" Grid.Column="0"/>
+                            <CheckBox Grid.Row="5" Grid.Column="1" x:Name="SaturdayBox" IsEnabled="False"/>
+
+                            <Label Text="Sunday"  Grid.Row="6" Grid.Column="0"/>
+                            <CheckBox Grid.Row="6" Grid.Column="1" x:Name="SundayBox" IsEnabled="False"/>
+
+                        </Grid>
+
+                        <!--Row 3 and 4 - contains TherapistDescriptionEntry selection-->
+                        <Label Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"  Text="Description:" MaxLines="3"/>
+                        <Editor Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"  x:Name="TherapistDescriptionEntry" TextColor="{StaticResource TextColor}"  IsReadOnly="True" AutoSize="TextChanges"/>
+
+                    </Grid>
+                </Frame>
+            </ScrollView>
+
+            <!--Frame containing edit profile button, is hidden when clicked to show save profile frame-->
+            <Frame x:Name="EditProfileFrame" 
+                   BackgroundColor="{StaticResource MainBlueColor}">
+                <Button Clicked="EditProfile_OnCLicked"
+                        Text="Edit Profile"
+                        FontAttributes="Bold" 
+                        FontSize="Large" 
+                        HorizontalOptions="FillAndExpand"
+                        BackgroundColor="#85aed0"
+                        BorderColor="Transparent"/>
+            </Frame>
+
+            <!--Frame containing save profile button, is hidden when clicked to show edit profile frame-->
+            <Frame x:Name="SaveProfileFrame" 
+                BackgroundColor="{StaticResource MainBlueColor}"
+                IsVisible="False">
+                <Button  Clicked="SaveProfile_OnCLicked"
+                         Text="Save Profile"
+                         FontAttributes="Bold" 
+                         FontSize="Large" 
+                         HorizontalOptions="FillAndExpand"
+                         BackgroundColor="#85aed0"
+                         BorderColor="Transparent"
+                />
+            </Frame>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

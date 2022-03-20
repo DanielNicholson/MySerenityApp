@@ -16,13 +16,16 @@ namespace MySerenity.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AccountCreation : ContentPage
     {
+        // age list to be displayed in the age picker
         private List<int> _ageList = new List<int>();
 
         private bool _isUserClient = true;
+
         public AccountCreation()
         {
             NavigationPage.SetHasNavigationBar(this, false);
 
+            // populate age list
             for (int i = 16; i < 100; i++)
             {
                 _ageList.Add(i);
@@ -35,11 +38,15 @@ namespace MySerenity.Pages
             AgePicker.ItemsSource = _ageList;
         }
 
+        // creates the user account, registers them with firebase auth, stores the information in the database and logs the user in if successful
         private async void Create_Account(object sender, EventArgs e)
         {
+            // register the user within firebase
             bool result = await Auth.RegisterUser(EmailInput.Text, PasswordInput.Text);
-            if (result)
+
+            if (result) // if the authentication was successful.
             {
+                // save whether the user is a therapist or client.
                 Firestore.SaveUserRole(_isUserClient);
 
                 // sign up logic if user selects to sign up as a client.
@@ -108,7 +115,7 @@ namespace MySerenity.Pages
                     }
 
 
-
+                    // create the Clientquestionnaire object to map to firebase.
                     Clientquestionnaire signup = new Clientquestionnaire()
                     {
                         ClientName = ClientNameEntry.Text,
@@ -126,24 +133,31 @@ namespace MySerenity.Pages
                         EmergencyContactNumber = NumberEntry.Text,
                     };
 
-
-                    Firestore.ClientLookingForTherapist(new ClientTherapistRelationship());
-                    Firestore.SaveSignUpQuestions(signup);
+                    
+                    Firestore.ClientLookingForTherapist(new ClientTherapistRelationship());  // set the client to be looking for a therapist in firestore so they appear in the available clients list.
+                    Firestore.SaveSignUpQuestions(signup);                                   // store the questions in firebase.
 
                     await Navigation.PushAsync(new HomePage());
                 }
-                else // therapist sign up logic
+
+                // therapist sign up logic
+                else
                 {
+                    // create the TherapistInfo object to map to firebase.
                     TherapistInfo signupInfo = new TherapistInfo()
                     {
                         Name = TherapistNameEntry.Text,
                         Membership = MembershipPicker.SelectedItem.ToString(),
                         MySerenityInterest = TherapistInterestPicker.SelectedItem.ToString(),
                         MySerenityTime = TherapistTimePicker.SelectedItem.ToString(),
-                        MySerenityAwareness = TherapistAwarenessPicker.SelectedItem.ToString()
+                        MySerenityAwareness = TherapistAwarenessPicker.SelectedItem.ToString(),
+                        Description = TherapistDescriptionEntry.Text,
                     };
 
+                    // save the therapist info in firestore, used to display on therapist profile page and MyTherapistInfo page on client page.
                     Firestore.SaveTherapistInfo(signupInfo);
+
+                    // navigate to the therapist dashboard.
                     await Navigation.PushAsync(new TherapistDashboard());
                 }
             }
@@ -154,6 +168,7 @@ namespace MySerenity.Pages
             Navigation.PushAsync(new LoginPage());
         }
 
+        // changes which sign up questions are displayed depending on which role switch is toggled to on, different questions are presented to client and therapists.
         private void ClientRoleSwitchSwitched(object sender, ToggledEventArgs e)
         {
             if (ClientRoleSwitch.IsToggled == true)
@@ -180,6 +195,7 @@ namespace MySerenity.Pages
             }
         }
 
+        // changes which sign up questions are displayed depending on which role switch is toggled to on, different questions are presented to client and therapists.
         private void TherapistRoleSwitchSwitched(object sender, ToggledEventArgs e)
         {
             if (TherapistRoleSwitch.IsToggled == true)
