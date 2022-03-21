@@ -554,6 +554,29 @@ namespace MySerenity.Droid.Dependencies
             return moodEntries;
         }
 
+        public async Task<List<ChartEntry>> RetrieveMoodData(string userID)
+        {
+            List<ChartEntry> moodEntries = new List<ChartEntry>();
+
+            // get a list of all saved journal entries for the authenticated user
+            var journalEntries = await Helpers.Firestore.ReadAllJournalEntriesForUser(userID);
+
+            foreach (var journalEntry in journalEntries)
+            {
+                var chartEntry = new ChartEntry(journalEntry.JournalEntryMoodData)
+                {
+                    Label = journalEntry.JournalEntryEntryTime,
+                    Color = SKColor.Parse("#3498db"),
+
+                };
+
+                moodEntries.Insert(moodEntries.Count, chartEntry);
+            }
+
+            moodEntries.Reverse();
+            return moodEntries;
+        }
+
         public async Task<TherapistInfo> GetTherapistForClient()
         {
             TherapistInfo info = null;
@@ -869,5 +892,34 @@ namespace MySerenity.Droid.Dependencies
             return entries;
         }
 
+        public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser(string userID)
+        {
+            // get collection of all journal entries where the current authenticated userID matches the userID of the document.
+            Query collectionQuery = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", userID);
+            QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
+
+            var entries = new List<JournalEntry>();
+
+            // loop through all documents in query
+            foreach (var entry in collectionSnapshot.Documents)
+            {
+                // create a new Journal Entry and fill in all values in document
+                var newJournal = new JournalEntry()
+                {
+                    UserId = entry.Get("userID").ToString(),
+                    JournalEntryTitle = entry.Get("journalEntryTitle").ToString(),
+                    JournalEntryText = entry.Get("journalEntryText").ToString(),
+                    JournalEntryMoodData = Int32.Parse(entry.Get("journalEntryMoodData").ToString()),
+                    JournalEntryEntryTime = entry.Get("journalEntryEntryTime").ToString(),
+                    Id = entry.Id
+                };
+
+                // add the entry to list and reverse to show in correct order
+                entries.Add(newJournal);
+            }
+
+            entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
+            return entries;
+        }
     }
 }

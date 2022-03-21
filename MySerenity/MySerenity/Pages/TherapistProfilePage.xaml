@@ -8,18 +8,16 @@
             <ScrollView VerticalOptions="StartAndExpand">
 
 
-                <!--Frame containing questions and answers from when client signed up -->
-                <Frame x:Name="ClientQuestionsAndAnswers"
+                <!--Frame containing therapist profile info. -->
+                <Frame x:Name="TherapistProfileFrame"
                                        VerticalOptions="StartAndExpand" 
                                        BackgroundColor="{StaticResource MainBlueColor}" 
                                        HasShadow="False"
                                        IsVisible="True"
                                        BorderColor="Transparent">
 
-
-
                     <Grid RowSpacing="15"
-                              ColumnSpacing="10">
+                          ColumnSpacing="10">
 
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
