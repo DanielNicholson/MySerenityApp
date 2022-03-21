@@ -4,8 +4,8 @@
             xmlns:local="clr-namespace:MySerenity.Pages;assembly=MySerenity"
             x:Class="MySerenity.Pages.TherapistDashboard">
 
-    <local:TherapistClientListPage Title="Client List"></local:TherapistClientListPage>
-    <local:TherapistProfilePage Title="My Profile"></local:TherapistProfilePage>
+    <local:TherapistClientListPage Title="Client List" IconImageSource="clients.png"></local:TherapistClientListPage>
+    <local:TherapistProfilePage Title="My Profile" IconImageSource="profile.png"></local:TherapistProfilePage>
 
 
 </TabbedPage>

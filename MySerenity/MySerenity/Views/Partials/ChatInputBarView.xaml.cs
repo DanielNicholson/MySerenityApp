@@ -21,19 +21,19 @@ namespace MySerenity.Views.Partials
         {
             InitializeComponent();
 
-            if (Device.RuntimePlatform == Device.iOS)
-            {
-                this.SetBinding(HeightRequestProperty, new Binding("Height", BindingMode.OneWay, null, null, null, chatTextInput));
-            }
         }
 
         public async void Handle_Completed(object sender, EventArgs e)
         {
+            // send a message to realtime database.
+
+            // get client and therapist ID based on current authenticated role and 2 people in the chat.
             string userRole = await Firestore.GetUserRole();
             string therapistID = userRole == "Therapist" ? Auth.GetCurrentUserId() : PrivateMessagePage.recieverID;
             string clientID = userRole == "Client" ? Auth.GetCurrentUserId() : PrivateMessagePage.recieverID;
             string chatID = therapistID + clientID;
 
+            // create a message
             var message = new Message()
             {
                 SenderId = Auth.GetCurrentUserId(),
@@ -42,14 +42,11 @@ namespace MySerenity.Views.Partials
                 MessageSentTime = System.DateTime.Now.ToString(new CultureInfo("en-GB")),
             };
 
+            // put message into real time DB
             await App.realTimeClient.Child("Message").Child(chatID).PostAsync(message);
 
+            // reset Editor to empty message.
             chatTextInput.Text = "";
-        }
-
-        public void UnFocusEntry()
-        {
-            chatTextInput?.Unfocus();
         }
     }
 }

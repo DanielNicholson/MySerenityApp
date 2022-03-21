@@ -287,6 +287,7 @@ namespace MySerenity.Droid.Dependencies
             }
             else
             {
+                // access the documents and get the role from the doc - return role.
                 foreach (DocumentSnapshot doc in collectionSnapshot.Documents)
                 {
                     role = doc.Get("role").ToString();
@@ -444,7 +445,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
-
+        // saves a sent message to firestore
         public bool SendMessage(Message message)
         {
             // firestore is organised as a dictionary of keys and values - to save an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
@@ -475,6 +476,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // retrieves a conversation from firestore
         public async Task<List<Message>> RetrieveConversation(string recieverID)
         {
             var entries = new List<Message>();
@@ -531,6 +533,7 @@ namespace MySerenity.Droid.Dependencies
             return entries;
         }
 
+        // retried mood data to display on the mood on the client dashboard
         public async Task<List<ChartEntry>> RetrieveMoodData()
         {
             List<ChartEntry> moodEntries = new List<ChartEntry>();
@@ -554,6 +557,7 @@ namespace MySerenity.Droid.Dependencies
             return moodEntries;
         }
 
+        // retried mood data to display on the mood on the MyClientDetails page
         public async Task<List<ChartEntry>> RetrieveMoodData(string userID)
         {
             List<ChartEntry> moodEntries = new List<ChartEntry>();
@@ -577,6 +581,7 @@ namespace MySerenity.Droid.Dependencies
             return moodEntries;
         }
 
+        // returns therapist information from firestore for the client.
         public async Task<TherapistInfo> GetTherapistForClient()
         {
             TherapistInfo info = null;
@@ -630,6 +635,7 @@ namespace MySerenity.Droid.Dependencies
             return info;
         }
 
+        // unmatch a client from a therapist - client side.
         public async Task<bool> UnmatchClientFromTherapist(TherapistInfo info)
         {
             // firestore is organised as a dictionary of keys and values - to update an object
@@ -667,6 +673,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // unmatch a therapist from a client - therapist side.
         public async Task<bool> UnmatchTherapistFromClient(Clientquestionnaire client)
         {
             // firestore is organised as a dictionary of keys and values - to update an object
@@ -683,7 +690,7 @@ namespace MySerenity.Droid.Dependencies
                 // get the collection of all ClientTherapistRelationship documents from firestore
                 var collection = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship");
 
-                // get record of client who matches the userID
+                // get record of client who matches the client userID
                 Query clientRecords = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("userID", client.UserId);
                 QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await clientRecords.Get();
 
@@ -704,16 +711,17 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // return the therapist info for current authenticated user
         public async Task<TherapistInfo> GetTherapistInfo()
         {
             TherapistInfo info = null;
             string therapistID = "";
 
-            // get a collection snapshot of all therapistInfo where userID == therapistID from previous query
+            // get a collection snapshot of all therapistInfo where userID == therapistID
             Query collectionQueryTwo = FirebaseFirestore.Instance.Collection("TherapistInfo").WhereEqualTo("userID", FirebaseAuth.Instance.CurrentUser.Uid);
             QuerySnapshot collectionSnapshotTwo = (QuerySnapshot)await collectionQueryTwo.Get();
 
-            // should only ever be one therapist info for each user ID
+            // should only ever be a max of one therapist info for each user ID - return null record if record does not exist
             if (collectionSnapshotTwo.Size() != 1)
             {
                 return info;
@@ -738,12 +746,13 @@ namespace MySerenity.Droid.Dependencies
             return info;
         }
 
+        // update therapist info from therapist profile page
         public async Task<bool> UpdateTherapistInfo(TherapistInfo info)
         {
             // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
             try
             {
-                // create dictionary of keys and values that match 'Clientquestionnaire' in firestore
+                // create dictionary of keys and values that match 'TherapistInfo' in firestore
                 var therapistInfo = new Dictionary<string, Object>
                 {
                     {"userID", info.UserId},
@@ -755,7 +764,7 @@ namespace MySerenity.Droid.Dependencies
                     {"Description", info.Description},
                 };
 
-                // get the collection of Clientquestionnaires
+                // get the collection of TherapistInfo
                 var collection = FirebaseFirestore.Instance.Collection("TherapistInfo");
 
                 // get record of client who matches the userID
@@ -779,6 +788,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // saves the theapist working days in firestore
         public async Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule)
         {
             // firestore is organised as a dictionary of keys and values - to update an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
@@ -827,6 +837,7 @@ namespace MySerenity.Droid.Dependencies
             }
         }
 
+        // retrieve the therapist's working schedule - used to display on TherapistProfilePage and MyTherapistProfilePage
         public async Task<TherapistWorkingDays> GetTherapistSchedule(string userID)
         {
             TherapistWorkingDays schedule = null;
@@ -860,7 +871,7 @@ namespace MySerenity.Droid.Dependencies
             return schedule;
         }
 
-
+        // return all journal entries for the current authenticated user
         public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser()
         {
             // get collection of all journal entries where the current authenticated userID matches the userID of the document.
@@ -888,13 +899,15 @@ namespace MySerenity.Droid.Dependencies
 
             }
 
+            // order by date
             entries.OrderBy(p => DateTime.Parse(p.JournalEntryEntryTime));
             return entries;
         }
 
+        // return all journal entries for the given user to get mood data for the mood chart on MyClientDetailsPage
         public async Task<List<JournalEntry>> ReadAllJournalEntriesForUser(string userID)
         {
-            // get collection of all journal entries where the current authenticated userID matches the userID of the document.
+            // get collection of all journal entries where the userID matches the userID of the document.
             Query collectionQuery = FirebaseFirestore.Instance.Collection("JournalEntries").WhereEqualTo("userID", userID);
             QuerySnapshot collectionSnapshot = (QuerySnapshot)await collectionQuery.Get();
 

@@ -11,11 +11,11 @@
             <Grid x:Name="MainGrid">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
-                    <RowDefinition Height="0.3*" />
+                    <RowDefinition Height="0.5*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.5*" />
-                    <ColumnDefinition Width="0.5*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
 
                 </Grid.ColumnDefinitions>
 
@@ -23,41 +23,50 @@
                         TextColor="{StaticResource TextColor}"
                         Clicked="Handle_ClickedOne"
                         x:Name="btn1"
-                        VerticalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
                         HorizontalOptions="Center"
                         Grid.Row="0"
                         Grid.Column="0"
-                        CornerRadius="100"/>
+                        CornerRadius="100"
+                        HeightRequest="100"
+                        WidthRequest="100"
+                        />
 
                 <Button Text="{Binding ButtonTwoProp}"
                         TextColor="{StaticResource TextColor}"
                         Clicked="Handle_ClickedTwo"
                         x:Name="btn2"
-                        VerticalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
                         HorizontalOptions="Center"
                         Grid.Row="0"
                         Grid.Column="1"
-                        CornerRadius="100"/>
+                        CornerRadius="100"
+                        HeightRequest="100"
+                        WidthRequest="100"/>
 
                 <Button Text="{Binding ButtonThreeProp}"
                         TextColor="{StaticResource TextColor}"
                         Clicked="Handle_ClickedThree"
                         x:Name="btn3"
-                        VerticalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
                         HorizontalOptions="Center"
                         Grid.Row="1"
                         Grid.Column="0"
-                        CornerRadius="100"/>
+                        CornerRadius="100"
+                        HeightRequest="100"
+                        WidthRequest="100"/>
 
                 <Button Text="{Binding ButtonFourProp}"
                         TextColor="{StaticResource TextColor}"
                         Clicked="Handle_ClickedFour"
                         x:Name="btn4"
-                        VerticalOptions="CenterAndExpand"
+                        VerticalOptions="Center"
                         HorizontalOptions="Center"
                         Grid.Row="1"
                         Grid.Column="1"
-                        CornerRadius="100"/>
+                        CornerRadius="100"
+                        HeightRequest="100"
+                        WidthRequest="100"/>
             </Grid>
 
         </StackLayout>

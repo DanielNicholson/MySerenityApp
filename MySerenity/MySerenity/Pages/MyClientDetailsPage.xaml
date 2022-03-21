@@ -50,7 +50,7 @@
                         <Label Grid.Row="4" Grid.Column="0" Text="Reasons for therapy:" MaxLines="3"/>
                         <Label Grid.Row="4" Grid.Column="1"  x:Name="ClientTherapyReasonsEntry"  TextColor="{StaticResource TextColor}"/>
 
-                        <!--Row 4 - contains reasons for therapy experience-->
+                        <!--Row 5 and 6 - contains mood chart -->
                         <Label Grid.Row="5" Grid.Column="0" Text="Mood Chart:" MaxLines="3"/>
                         <forms:ChartView Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" x:Name="chartView" HeightRequest="200" BackgroundColor="{StaticResource MainBlueColor}"/>
 

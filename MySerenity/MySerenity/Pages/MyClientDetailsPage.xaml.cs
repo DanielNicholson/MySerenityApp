@@ -87,7 +87,7 @@ namespace MySerenity.Pages
 
         private async void UnmatchClient_OnClicked(object sender, EventArgs e)
         {
-            bool ans = await DisplayAlert("Are you sure you want to umatch from:", _clientDetails.ClientName, "Yes", "No");
+            bool ans = await DisplayAlert("Are you sure you want to unmatch from:", _clientDetails.ClientName, "Yes", "No");
 
             if (ans)
             {

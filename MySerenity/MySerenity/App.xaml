@@ -10,20 +10,24 @@
             <Style TargetType="Button">
                 <Setter Property="BackgroundColor" Value="{StaticResource MainBlueColor}"></Setter>
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
+                <Setter Property="FontFamily" Value="MyCustomFont"></Setter>
             </Style>
 
             <Style TargetType="Label">
                 <Setter Property="TextColor" Value="{StaticResource TextColor}"></Setter>
                 <Setter Property="FontSize" Value="17"></Setter>
+                <Setter Property="FontFamily" Value="MyCustomFont"></Setter>
             </Style>
 
             <Style x:Key="Header" TargetType="Label">
                 <Setter Property="FontSize" Value="60"></Setter>
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
+                <Setter Property="FontFamily" Value="MyCustomFont"></Setter>
             </Style>
 
             <Style x:Key="MiniHeader" TargetType="Label">
                 <Setter Property="FontSize" Value="20"></Setter>
+                <Setter Property="FontFamily" Value="MyCustomFont"></Setter>
                 <Setter Property="HorizontalTextAlignment" Value="Center"></Setter>
             </Style>
         </ResourceDictionary>

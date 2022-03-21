@@ -5,19 +5,17 @@ using Xamarin.Forms;
 
 namespace MySerenity.Controls
 {
+    // code take from 
+    // Del Rosario, L (2018) ChatUIXForms [source code]. "https://github.com/rdelrosario/ChatUIXForms/blob/master/ChatUIXForms/Controls/ExtendedEditorControl.cs" - accessed 02/03/2022
     public class ExtendedEditorControl : Editor
     {
-        public static BindableProperty PlaceholderProperty
-            = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(ExtendedEditorControl));
+        public static BindableProperty PlaceholderProperty = BindableProperty.Create(nameof(Placeholder), typeof(string), typeof(ExtendedEditorControl));
 
-        public static BindableProperty PlaceholderColorProperty
-            = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(ExtendedEditorControl), Color.LightGray);
+        public static BindableProperty PlaceholderColorProperty = BindableProperty.Create(nameof(PlaceholderColor), typeof(Color), typeof(ExtendedEditorControl), Color.LightGray);
 
-        public static BindableProperty HasRoundedCornerProperty
-            = BindableProperty.Create(nameof(HasRoundedCorner), typeof(bool), typeof(ExtendedEditorControl), false);
+        public static BindableProperty HasRoundedCornerProperty = BindableProperty.Create(nameof(HasRoundedCorner), typeof(bool), typeof(ExtendedEditorControl), false);
 
-        public static BindableProperty IsExpandableProperty
-            = BindableProperty.Create(nameof(IsExpandable), typeof(bool), typeof(ExtendedEditorControl), false);
+        public static BindableProperty IsExpandableProperty = BindableProperty.Create(nameof(IsExpandable), typeof(bool), typeof(ExtendedEditorControl), false);
 
         public bool IsExpandable
         {
@@ -56,8 +54,6 @@ namespace MySerenity.Controls
         {
             if (IsExpandable)
                 InvalidateMeasure();
-
-
         }
 
     }

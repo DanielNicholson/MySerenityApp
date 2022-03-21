@@ -20,12 +20,17 @@ namespace MySerenity.Helpers
 
         protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
         {
-            var messageVm = item as Message;
-            if (messageVm == null)
+            // takes a given message - passed into to method when populating chat screen.
+            Message currentMessage = item as Message;
+
+            // catch all, if there is no message - return null
+            if (currentMessage == null)
+            {
                 return null;
+            }
 
-
-            return (messageVm.SenderId == Auth.GetCurrentUserId()) ? outgoingDataTemplate : incomingDataTemplate;
+            // if the current authenticated user is the sender the the message is a sent message
+            return (currentMessage.SenderId == Auth.GetCurrentUserId()) ? outgoingDataTemplate : incomingDataTemplate;
         }
 
     }

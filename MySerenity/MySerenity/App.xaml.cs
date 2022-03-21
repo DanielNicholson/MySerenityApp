@@ -5,6 +5,8 @@ using Firebase.Database;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+[assembly: ExportFont("Lemonada-Regular.ttf", Alias = "MyCustomFont")]
+
 namespace MySerenity
 {
     public partial class App : Application
