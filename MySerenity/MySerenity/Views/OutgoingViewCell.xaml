@@ -15,10 +15,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-
-
-
-
             <Label Text="{Binding MessageText}"
                    TextColor="{StaticResource TextColor}"
                    Grid.Row="0"

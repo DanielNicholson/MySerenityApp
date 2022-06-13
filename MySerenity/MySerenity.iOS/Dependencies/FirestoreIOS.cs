@@ -174,6 +174,11 @@ namespace MySerenity.iOS.Dependencies
             }
         }
 
+        public Task<List<JournalEntry>> ReadAllJournalEntriesForUser(string userID)
+        {
+            throw new NotImplementedException();
+        }
+
         public bool SaveUserRole(bool userRole)
         {
             throw new NotImplementedException();
@@ -229,6 +234,11 @@ namespace MySerenity.iOS.Dependencies
             throw new NotImplementedException();
         }
 
+        public Task<List<ChartEntry>> RetrieveMoodData(string userID)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<TherapistInfo> GetTherapistForClient()
         {
             throw new NotImplementedException();
@@ -255,6 +265,11 @@ namespace MySerenity.iOS.Dependencies
         }
 
         public Task<bool> SaveTherapistSchedule(TherapistWorkingDays schedule)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<TherapistWorkingDays> GetTherapistSchedule(string userID)
         {
             throw new NotImplementedException();
         }

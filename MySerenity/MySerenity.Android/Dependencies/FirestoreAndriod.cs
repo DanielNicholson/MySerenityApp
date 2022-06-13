@@ -52,7 +52,8 @@ namespace MySerenity.Droid.Dependencies
         // saves a journal entry to firestore
         public bool SaveJournalEntry(JournalEntry entry)
         {
-            // firestore is organised as a dictionary of keys and values - to save an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
+            // firestore is organised as a dictionary of keys and values -
+            // to save an object, we need to split the journal entry in to a dictionary that matches the columns in firestore and the values to store.
             try
             {
                 // create the dictionary to store in firestore
@@ -359,12 +360,12 @@ namespace MySerenity.Droid.Dependencies
         public async Task<List<Clientquestionnaire>> ReadAllClientsForTherapist()
         {
             // get collection of all clients who haven't been matches with a therapist.
-            Query unapprovedClients = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("TherapistID", FirebaseAuth.Instance.CurrentUser.Uid);
-            QuerySnapshot unapprovedClientsSnapshot = (QuerySnapshot)await unapprovedClients.Get();
+            Query MyClients = FirebaseFirestore.Instance.Collection("ClientTherapistRelationship").WhereEqualTo("TherapistID", FirebaseAuth.Instance.CurrentUser.Uid);
+            QuerySnapshot MyClientsSnapshot = (QuerySnapshot)await MyClients.Get();
 
             // loop through the list and add all userIDs to a list.
             IList<Object> list = new List<Object>();
-            foreach (var entry in unapprovedClientsSnapshot.Documents)
+            foreach (var entry in MyClientsSnapshot.Documents)
             {
                 list.Add(entry.Get("userID").ToString());
             }
@@ -374,10 +375,10 @@ namespace MySerenity.Droid.Dependencies
             {
                 // get all client sign up questionnaires of clients.
                 FieldPath path = FieldPath.Of("userID");
-                Query unapprovedClientDetails = FirebaseFirestore.Instance.Collection("Clientquestionnaire").WhereIn(path, list);
-                QuerySnapshot unapprovedClientDetailsSnapshot = (QuerySnapshot)await unapprovedClientDetails.Get();
+                Query myClientDetails = FirebaseFirestore.Instance.Collection("Clientquestionnaire").WhereIn(path, list);
+                QuerySnapshot myClientDetailsSnapshot = (QuerySnapshot)await myClientDetails.Get();
 
-                foreach (var entry in unapprovedClientDetailsSnapshot.Documents)
+                foreach (var entry in myClientDetailsSnapshot.Documents)
                 {
                     // create a new Clientquestionnaire and fill in all values in document
                     var newQuestions = new Clientquestionnaire()

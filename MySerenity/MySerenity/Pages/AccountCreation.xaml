@@ -12,7 +12,7 @@
                        Padding="7.5" >
                     <StackLayout>
                         <Label x:Name="MainBanner" 
-                               Text="My Serenity" 
+                               Text="MySerenity" 
                                HorizontalTextAlignment="Center" 
                                FontSize="60"/>
 
@@ -61,7 +61,7 @@
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="250" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
@@ -120,7 +120,7 @@
 
                             <Grid RowSpacing="15">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="140" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
